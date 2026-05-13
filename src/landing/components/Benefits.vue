@@ -108,7 +108,7 @@ const router = useRouter();
 
 .main-title {
   font-family: 'Archivo Black', sans-serif;
-  font-size: clamp(3rem, 7vw, 7rem);
+  font-size: clamp(3rem, 4vw, 7rem);
   line-height: 0.9;
   margin-bottom: 2rem;
   text-transform: uppercase;
