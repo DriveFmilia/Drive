@@ -35,8 +35,8 @@ const toggleMenu = () => {
       </div>
 
       <div class="auth-actions">
-        <button @click="scrollToSection('login')" class="login-btn">LOGIN</button>
-        <button @click="scrollToSection('registro')" class="register-btn">REGISTRAR GYM</button>
+        <router-link to="/Login" class="login-btn">LOGIN</router-link>
+        <router-link to="/Record" class="register-btn">REGISTRAR GYM</router-link>
         
         <button class="mobile-toggle" @click="toggleMenu">
           <div :class="['hamburger', { 'is-active': isMenuOpen }]">

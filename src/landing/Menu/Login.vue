@@ -1,138 +1,216 @@
-<script setup>
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-import logo from '@/assets/icono.png';
-
-const router = useRouter();
-
-const email = ref('');
-const password = ref('');
-const loginError = ref(null);
-const isLoading = ref(false);
-
-const handleLogin = () => {
-  isLoading.value = true;
-  loginError.value = null;
-
-  setTimeout(() => {
-    const mail = email.value.toLowerCase();
-    if (mail.includes('admin') || mail.includes('dueño') || mail.includes('staff') || mail.includes('cliente')) {
-      router.push('/dashboard');
-    } else {
-      loginError.value = "Credenciales incorrectas";
-      isLoading.value = false;
-    }
-  }, 1000);
-};
-</script>
-
 <template>
-  <!-- Fondo Claro Profesional (Gris azulado ultra suave) -->
-  <div class="min-h-screen flex flex-col items-center justify-center bg-[#f8fafc] p-4 md:p-8 relative font-sans selection:bg-blue-100">
-    
-    <!-- Header Logo -->
-    <div class="absolute top-6 left-6 md:top-10 md:left-10 flex items-center gap-2">
-      <img :src="logo" alt="The Gym" class="w-10 h-10 object-contain">
-      <span class="text-[#1e293b] font-bold tracking-tight text-lg uppercase italic">The Gym</span>
-    </div>
+  <div class="login-page">
+    <router-link :to="{ name: 'home' }" class="top-brand">
+      <div class="logo-circle-sm">
+        <img src="@/assets/logo.png" alt="Logo" class="logo-img-sm" />
+      </div>
+      <span class="logo-text-sm">The Gym</span>
+    </router-link>
 
-    <!-- Card Principal Blanca y Elegante -->
-    <div class="w-full max-w-md bg-white p-8 md:p-12 rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.04)] border border-slate-100 transition-all">
-        
-        <!-- Encabezado -->
-        <div class="mb-10">
-          <h1 class="text-3xl md:text-4xl font-extrabold text-[#0f172a] tracking-tight mb-2">
-            Inicia<span class="text-blue-600 font-medium">Sesión</span>
-          </h1>
-          <p class="text-slate-500 text-sm font-medium">Gestiona tu gimnasio</p>
-        </div>
+    <main class="login-container">
+      <div class="login-card">
+        <h1 class="title">
+          Inicia <span class="highlight-text">Sesión</span>
+        </h1>
+        <p class="subtitle">Gestiona tu gimnasio</p>
 
-        <form @submit.prevent="handleLogin" class="space-y-6">
-            
-            <!-- Campo Usuario -->
-            <div class="space-y-2">
-                <label class="text-[11px] uppercase tracking-wider text-slate-400 font-bold ml-1">Usuario</label>
-                <div class="relative">
-                  <input 
-                    v-model="email"
-                    type="email" 
-                    placeholder="correo@ejemplo.com" 
-                    required
-                    class="w-full bg-slate-50 text-slate-900 py-4 px-5 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/5 focus:outline-none transition-all placeholder:text-slate-300 text-sm"
-                  >
-                  <i class="absolute right-5 top-1/2 -translate-y-1/2 text-slate-400 ph ph-envelope-simple"></i>
-                </div>
+        <form @submit.prevent="handleLogin" class="login-form">
+          <div class="input-group">
+            <label>Usuario</label>
+            <div class="input-wrapper">
+              <input type="email" placeholder="Correo@ejemplo.com" v-model="email" required />
+              <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
             </div>
+          </div>
 
-            <!-- Campo Contraseña -->
-            <div class="space-y-2">
-                <div class="flex justify-between items-center px-1">
-                  <label class="text-[11px] uppercase tracking-wider text-slate-400 font-bold">Contraseña</label>
-                  <router-link to="/auth/recover" class="text-[11px] text-blue-600 hover:underline font-bold">¿Olvidaste la clave?</router-link>
-                </div>
-                <div class="relative">
-                  <input 
-                    v-model="password"
-                    type="password" 
-                    placeholder="••••••••" 
-                    required
-                    class="w-full bg-slate-50 text-slate-900 py-4 px-5 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/5 focus:outline-none transition-all placeholder:text-slate-300 text-sm"
-                  >
-                  <i class="absolute right-5 top-1/2 -translate-y-1/2 text-slate-400 ph ph-lock-simple"></i>
-                </div>
+          <div class="input-group">
+            <div class="label-row">
+              <label>Contraseña</label>
+              <a href="/RecoverPassword" class="forgot-link">¿Olvidaste la clave?</a>
             </div>
-
-            <!-- Error -->
-            <transition name="fade">
-              <div v-if="loginError" class="bg-red-50 text-red-500 text-[11px] font-bold py-2 px-4 rounded-lg border border-red-100 text-center uppercase tracking-wide">
-                {{ loginError }}
+            <div class="input-wrapper">
+              <input type="password" placeholder="Contraseña" v-model="password" required />
+              <div class="icons-right">
+                <svg class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
               </div>
-            </transition>
+            </div>
+          </div>
 
-            <!-- Botón Ingresar -->
-            <button 
-                type="submit"
-                :disabled="isLoading"
-                class="w-full bg-[#0f172a] hover:bg-[#1e293b] text-white font-bold py-4 rounded-xl transition-all shadow-lg shadow-slate-200 flex justify-center items-center gap-2 group active:scale-[0.98]"
-            >
-                <span v-if="!isLoading" class="uppercase tracking-widest text-xs">Entrar al Sistema</span>
-                <i v-else class="ph ph-circle-notch animate-spin text-lg"></i>
-                <i v-if="!isLoading" class="ph ph-arrow-right text-sm group-hover:translate-x-1 transition-transform"></i>
-            </button>
+          <button type="submit" class="btn-primary">Entrar al Sistema</button>
+
+          <div class="divider">
+            <span>ó</span>
+          </div>
+
+          <router-link to="/Record" class="btn-secondary">Registrar tu Gimnasio</router-link>
         </form>
-
-        <!-- Divisor sutil -->
-        <div class="relative my-8 text-center">
-            <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-slate-100"></div></div>
-            <span class="relative bg-white px-4 text-[10px] text-slate-300 font-bold uppercase tracking-[0.2em]">O</span>
-        </div>
-        
-        <!-- Registrar Gimnasio -->
-        <router-link to="/auth/register"
-            class="w-full flex justify-center items-center gap-2 bg-white text-blue-600 text-xs font-bold py-4 px-6 rounded-xl border border-blue-100 hover:bg-blue-50 transition-all active:scale-[0.98]">
-            <i class="ph ph-plus-circle font-bold"></i>
-            Registrar Gimnasio
-        </router-link>
-    </div>
-
-    <!-- Footer Copyright -->
-    <div class="mt-12">
-      <p class="text-slate-400 font-medium tracking-[0.2em] text-[10px] uppercase">
-        © 2026 The Gym Software — v2.0
-      </p>
-    </div>
+      </div>
+    </main>
   </div>
 </template>
 
+<script setup lang="ts">
+import { ref } from 'vue';
+
+const email = ref('');
+const password = ref('');
+
+const handleLogin = () => {
+  console.log('Login:', email.value);
+};
+</script>
+
 <style scoped>
-@import url('https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css');
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;600;800&display=swap');
 
-.fade-enter-active, .fade-leave-active { transition: opacity 0.3s; }
-.fade-enter-from, .fade-leave-to { opacity: 0; }
+.login-page {
+  min-height: 100vh;
+  background: linear-gradient(45deg, #7794b6, #dffaff);
+  font-family: 'Inter', sans-serif;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
 
-/* Limpieza de autocompletado en navegadores */
-input:-webkit-autofill {
-  -webkit-text-fill-color: #0f172a;
-  -webkit-box-shadow: 0 0 0px 1000px #f8fafc inset;
+.top-brand {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  z-index: 20;
+}
+
+.logo-circle-sm {
+  background: white;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.logo-img-sm { width: 30px; filter: invert(1); }
+
+.logo-text-sm {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 1rem;
+  font-style: italic;
+  color: #000;
+}
+
+.login-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.login-card {
+  background: white;
+  width: 100%;
+  max-width: 500px; 
+  padding: 50px;
+  border-radius: 24px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+  margin-top: 40px;
+}
+
+.title {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 3rem;
+  text-align: center;
+  margin-bottom: 5px;
+  color: #000;
+  letter-spacing: -2px;
+  line-height: 1;
+}
+
+.highlight-text { color: #4a6fa5; }
+.subtitle { text-align: center; font-weight: 800; font-size: 1rem; margin-bottom: 35px; color: #000; }
+.input-group { margin-bottom: 20px; }
+.label-row { display: flex; justify-content: space-between; align-items: center; }
+
+label { 
+  font-weight: 800; 
+  font-size: 0.9rem; 
+  margin-bottom: 6px; 
+  display: block; 
+  color: #000; 
+}
+
+.forgot-link { font-size: 0.75rem; color: #3b82f6; font-weight: 700; text-decoration: none; }
+.input-wrapper { position: relative; }
+
+input {
+  width: 100%;
+  padding: 14px;
+  padding-right: 45px;
+  background: #f9f9f9;
+  border: 1.5px solid #eee;
+  border-radius: 12px;
+  color: #000;
+  font-weight: 600;
+  box-sizing: border-box;
+}
+
+input::placeholder {
+  color: #888;
+}
+
+.input-icon, .lock-icon {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  color: #000;
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 16px;
+  background: #2d2d2d; 
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.divider { margin: 25px 0; border-top: 1px solid #eee; position: relative; }
+.divider span { position: absolute; top: -11px; left: 50%; transform: translateX(-50%); background: white; padding: 0 10px; font-weight: 800; color: #000; }
+
+.btn-secondary {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  background: #fff;
+  color: #000;
+  text-decoration: none;
+  border: 2px solid #000;
+  border-radius: 12px;
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 1rem;
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .top-brand {
+    top: 15px;
+    left: 15px;
+  }
+  .login-card {
+    padding: 30px 20px;
+    margin-top: 60px; 
+  }
+  .title { font-size: 2.2rem; }
 }
 </style>

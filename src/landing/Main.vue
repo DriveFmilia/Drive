@@ -6,8 +6,9 @@ import Benefits from '../landing/components/Benefits.vue'
 import Roles from '../landing/components/Roles.vue'
 import MonthlyPayments from '../landing/components/Monthly-payments.vue'
 import Footer from '../landing/components/Footer.vue'
+import Login from './Menu/Login.vue'
+import Record from './Menu/Record.vue'
 
-// Función para el scroll suave interno
 const scrollToSection = (id: string) => {
   const element = document.getElementById(id);
   if (element) {
@@ -18,10 +19,8 @@ const scrollToSection = (id: string) => {
 
 <template>
   <div class="flex flex-col min-h-screen">
-    <!-- Aquí colocamos el Heading que contiene tu Navbar -->
     <Heading @navigate="scrollToSection" />
 
-    <!-- Secciones cargadas una tras otra para scroll vertical -->
     <main class="flex-grow">
       <section id="sobre-nosotros">
         <AboutUs />
@@ -40,13 +39,13 @@ const scrollToSection = (id: string) => {
       </section>
     </main>
 
+
     <Footer />
   </div>
 </template>
 
 <style scoped>
-/* Aseguramos que el scroll sea fluido en este contenedor */
 section {
-  scroll-margin-top: 80px; /* Ajusta esto según el alto de tu Navbar */
+  scroll-margin-top: 80px; 
 }
 </style>

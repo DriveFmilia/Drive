@@ -7,16 +7,15 @@ import { RouterView } from 'vue-router'
 </template>
 
 <style>
-/* Reset global para que el diseño premium ocupe todo el espacio */
 body {
   margin: 0;
   padding: 0;
-  background-color: #0f172a; /* Color base oscuro */
+  background-color: #0f172a; 
   color: white;
   overflow-x: hidden;
 }
 
-/* Opcional: Personalizar el scrollbar para que se vea Pro */
+
 ::-webkit-scrollbar {
   width: 8px;
 }
