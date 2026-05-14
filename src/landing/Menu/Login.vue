@@ -26,7 +26,7 @@
           <div class="input-group">
             <div class="label-row">
               <label>Contraseña</label>
-              <a href="/RecoverPassword" class="forgot-link">¿Olvidaste la clave?</a>
+              <router-link :to="{ name: 'recover-password' }" class="forgot-link">¿Olvidaste la clave?</router-link>
             </div>
             <div class="input-wrapper">
               <input type="password" placeholder="Contraseña" v-model="password" required />
