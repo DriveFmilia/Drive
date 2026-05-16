@@ -1,10 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { adminRoutes } from './admin.routes' 
 import Login from '../landing/Menu/Login.vue'
 import Main from '../landing/Main.vue'
 import RecoverPassword from '@/landing/Menu/Recover-password.vue'
 import Record from '@/landing/Menu/Record.vue'
 
-// router/index.ts
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -28,6 +28,9 @@ const router = createRouter({
       name: 'record',
       component: Record,
     },
+    
+    ...adminRoutes, 
   ],
 })
+
 export default router

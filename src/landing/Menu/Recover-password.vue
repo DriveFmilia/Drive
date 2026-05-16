@@ -208,8 +208,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .btn-primary {
   width: 100%;
   padding: 20px;
-  background: #8e8e8e;
-  color: #000;
+  background: #000000;
+  color: #ffffff;
   border: none;
   border-radius: 15px;
   font-family: 'Archivo Black', sans-serif;

@@ -8,7 +8,6 @@ import MonthlyPayments from '../landing/components/Monthly-payments.vue'
 import Footer from '../landing/components/Footer.vue'
 import Login from './Menu/Login.vue'
 import Record from './Menu/Record.vue'
-
 const scrollToSection = (id: string) => {
   const element = document.getElementById(id);
   if (element) {

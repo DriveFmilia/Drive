@@ -49,14 +49,45 @@
   </div>
 </template>
 
+
+
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
 const email = ref('');
 const password = ref('');
 
 const handleLogin = () => {
-  console.log('Login:', email.value);
+  const userEmail = email.value.toLowerCase().trim();
+  const userPass = password.value;
+
+  // Validación básica de credenciales
+  if (userPass === '123') {
+    switch (userEmail) {
+      case 'admin@gmail.com':
+        console.log('Accediendo como Administrador');
+         router.push({ name: 'admin-dashboard' }); 
+        break;
+      case 'dueño@gmail.com':
+        console.log('Accediendo como Dueño');
+        break;
+      case 'recepcionista@gmail.com':
+        console.log('Accediendo como Recepcionista');
+        break;
+      case 'cliente@gmail.com':
+        console.log('Accediendo como Cliente');
+        break;
+      default:
+        alert('Usuario no reconocido');
+    }
+    
+    // Feedback visual temporal
+    alert(`Bienvenido: ${userEmail}`);
+  } else {
+    alert('Contraseña incorrecta');
+  }
 };
 </script>
 
@@ -175,7 +206,7 @@ input::placeholder {
 .btn-primary {
   width: 100%;
   padding: 16px;
-  background: #2d2d2d; 
+  background: #000; 
   color: #fff;
   border: none;
   border-radius: 12px;
