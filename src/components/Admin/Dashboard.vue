@@ -17,7 +17,7 @@
             </svg>
           </button>
 
-            <button class="nav-action-btn glass-effect" @click="activeModal = 'website'" title="Ir al Sitio Web">
+          <button class="nav-action-btn glass-effect" @click="activeModal = 'website'" title="Ir al Sitio Web">
             <svg viewBox="0 0 24 24" class="svg-icon"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
           </button>
         </div>
@@ -32,7 +32,6 @@
             <svg viewBox="0 0 24 24" class="svg-icon"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
           </button>
         </div>
-
       </nav>
 
       <main class="dashboard-content">
@@ -53,7 +52,7 @@
         </div>
 
         <div class="action-buttons-container">
-          <button class="action-card primary">
+          <button class="action-card primary" @click="activeModal = 'add-schedule'">
             <div class="action-icon">
                <svg viewBox="0 0 24 24" class="svg-btn"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg>
             </div>
@@ -63,7 +62,7 @@
             </div>
           </button>
 
-          <button class="action-card secondary">
+          <button class="action-card secondary" @click="activeModal = 'view-schedule'">
             <div class="action-icon">
                <svg viewBox="0 0 24 24" class="svg-btn"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
             </div>
@@ -75,7 +74,7 @@
         </div>
       </main>
       
-<transition name="pop">
+      <transition name="pop">
         <div v-if="activeModal" class="modal-wrapper" @click.self="closeModal">
           
           <div v-if="activeModal === 'facial' || activeModal === 'scanner'" class="camera-panel glass-effect">
@@ -86,9 +85,7 @@
             
             <div class="camera-container">
               <video ref="videoPlayer" autoplay playsinline class="video-feed"></video>
-              
               <div v-if="activeModal === 'facial'" class="face-overlay"></div>
-              
               <div v-if="activeModal === 'scanner'" class="qr-overlay">
                 <div class="scanner-line"></div>
               </div>
@@ -101,7 +98,6 @@
             </div>
           </div>
 
-          
           <div v-if="activeModal === 'qr'" class="custom-panel glass-effect">
             <div class="panel-header">
               <h3>Código QR de Acceso</h3>
@@ -131,11 +127,74 @@
             </div>
           </div>
 
+          <div v-if="activeModal === 'add-schedule'" class="form-panel glass-effect">
+            <div class="panel-header">
+              <h2 class="form-title">Nueva Actividad</h2>
+            </div>
+            <div class="form-body">
+              <div class="input-group">
+                <label>Dia de la Semana</label>
+                <select class="custom-select">
+                  <option>Seleccionar día...</option>
+                  <option>Lunes</option>
+                  <option>Martes</option>
+                  <option>Miercoles</option>
+                  <option>Jueves</option>
+                  <option>Viernes</option>
+                  <option>Sabado</option>
+                  <option>Domingo</option>
+                </select>
+              </div>
+              <div class="input-group">
+                <label>Nombre de Actividad</label>
+                <input type="text" placeholder="Ej. Crossfit" class="custom-input">
+              </div>
+              <div class="time-row">
+                <div class="input-group">
+                  <label>Inicio</label>
+                  <div class="time-box">8:00 AM</div>
+                </div>
+                <div class="input-group">
+                  <label>Fin</label>
+                  <div class="time-box">9:00 AM</div>
+                </div>
+              </div>
+            </div>
+            <div class="panel-footer-btns">
+              <button class="btn-cancel" @click="closeModal">CANCELAR</button>
+              <button class="btn-save">GUARDAR</button>
+            </div>
+          </div>
+
+          <div v-if="activeModal === 'view-schedule'" class="table-panel glass-effect">
+            <div class="panel-header2">
+              <h3>Horario Semanal</h3>
+              <button class="close-x" @click="closeModal">&times;</button>
+            </div>
+            <div class="table-container">
+              <table class="schedule-table">
+                <thead>
+                  <tr>
+                    <th>Lunes</th>
+                    <th>Martes</th>
+                    <th>Miercoles</th>
+                    <th>Jueves</th>
+                    <th>Viernes</th>
+                    <th>Sabados</th>
+                    <th>Domingo</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="i in 5" :key="i">
+                    <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
         </div>
       </transition>
-
-
-
     </div>
   </div>
 </template>
