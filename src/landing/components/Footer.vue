@@ -1,11 +1,13 @@
+<script setup lang="ts">
+import Logo from '@/landing/logo.vue';
+</script>
+
 <template>
   <footer class="footer-custom">
     <div class="container">
       <div class="footer-main">
         <div class="brand-section">
-          <div class="logo-wrapper">
-            <img src="../../assets/Contenido/imagen2.png" alt="FitManage Pro" class="footer-logo">
-          </div>
+          <logo/>>
           <h3 class="brand-name">FitManage Pro</h3>
           <p class="brand-desc">Sistema de gestión de pagos y optimización deportiva.</p>
         </div>
