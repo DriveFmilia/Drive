@@ -218,8 +218,8 @@ const handleRegister = () => console.log('Registro:', form);
 }
 
 .top-brand { position: absolute; top: 20px; left: 20px; display: flex; align-items: center; gap: 10px; text-decoration: none; }
-.logo-circle-sm { background: white; width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-.logo-img-sm { width: 25px; filter: invert(1); }
+/*.logo-circle-sm { background: white; width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+.logo-img-sm { width: 25px; filter: invert(1); }*/
 .logo-text-sm { font-family: 'Archivo Black', sans-serif; font-style: italic; color: #000; font-size: 1rem; }
 
 .main-content { display: flex; justify-content: center; margin-top: 40px; }

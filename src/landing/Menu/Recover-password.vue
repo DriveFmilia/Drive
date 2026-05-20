@@ -91,7 +91,7 @@ const handleRecovery = () => {
   z-index: 10;
 }
 
-.logo-circle-sm {
+/*.logo-circle-sm {
   background: white;
   width: 50px;
   height: 50px;
@@ -102,7 +102,7 @@ const handleRecovery = () => {
 }
 
 .logo-img-sm { width: 35px; filter: invert(1); }
-
+*/
 .logo-text-sm {
   font-family: 'Archivo Black', sans-serif;
   font-size: 1.1rem;
