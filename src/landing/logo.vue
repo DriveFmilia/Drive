@@ -1,6 +1,6 @@
 <template>
   <div class="logo-circle-sm">
-    <img src="@/assets/imagen2.png" alt="Logo" class="logo-img-sm" />
+    <img src="@/assets/icono.png" alt="Logo" class="logo-img-sm" />
   </div>
 </template>
 

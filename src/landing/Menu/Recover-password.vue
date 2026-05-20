@@ -1,9 +1,7 @@
 <template>
   <div class="recovery-page">
     <router-link :to="{ name: 'home' }" class="top-brand">
-      <div class="logo-circle-sm">
-        <logo />
-      </div>
+      <logo />
       <span class="logo-text-sm">FitManage Pro</span>
     </router-link>
 
