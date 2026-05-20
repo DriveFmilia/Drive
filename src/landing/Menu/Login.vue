@@ -1,9 +1,7 @@
 <template>
   <div class="login-page">
     <router-link :to="{ name: 'home' }" class="top-brand">
-      <div class="logo-circle-sm">
-        <img src="@/assets/icono2.png" alt="Logo" class="logo-img-sm" />
-      </div>
+      <Logo />
       <span class="logo-text-sm">FitManage Pro</span>
     </router-link>
 
@@ -54,6 +52,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import Logo from '@/components/Common/Logo.vue';
 
 const router = useRouter();
 const email = ref('');

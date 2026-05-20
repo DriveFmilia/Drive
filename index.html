@@ -1,8 +1,10 @@
 <!DOCTYPE html>
-<html lang="">
+<html lang="es">
   <head>
     <meta charset="UTF-8">
-    <link class="logo-circle-sm" rel="icon" type="image/png" href="./src/assets/icono2.png" />
+    <div class="logo-circle-sm">
+      <img src="@/assets/icono2.png" alt="Logo" class="logo-img">
+    </div>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>FitManage Pro</title>
   </head>
@@ -12,9 +14,8 @@
   </body>
 </html>
 
-
-<style>
-  .logo-circle-sm {
+<style scoped>
+.logo-circle-sm {
   background: white;
   width: 50px;
   height: 50px;
@@ -22,6 +23,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden; 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
 }
 
+.logo-img {
+  width: 75%; 
+  height: auto;
+  object-fit: contain;
+}
 </style>

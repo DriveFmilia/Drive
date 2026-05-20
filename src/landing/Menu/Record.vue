@@ -1,9 +1,7 @@
 <template>
   <div class="register-page">
     <router-link :to="{ name: 'home' }" class="top-brand">
-      <div class="logo-circle-sm">
-        <img src="@/assets/logo.png" alt="Logo" class="logo-img-sm" />
-      </div>
+      <Logo />
       <span class="logo-text-sm">FitManage Pro</span>
     </router-link>
 
@@ -178,6 +176,7 @@
 
 <script setup lang="ts">
 import { reactive, ref } from 'vue';
+import Logo from '@/components/Common/Logo.vue';
 
 const allDays = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
 const fileInput = ref<HTMLInputElement | null>(null);
