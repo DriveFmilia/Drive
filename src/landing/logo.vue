@@ -1,6 +1,6 @@
 <template>
   <div class="logo-circle-sm">
-    <img src="@/assets/icono.png" alt="Logo" class="logo-img-sm" />
+    <img src="@/assets/Contenido/imagen2.png" alt="FitManage Pro" class="logo-img-sm" />
   </div>
 </template>
 
@@ -21,6 +21,5 @@
   width: 30px; 
   height: auto;
   object-fit: contain;
-  filter: invert(1); 
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div class="login-page">
     <router-link :to="{ name: 'home' }" class="top-brand">
-      <Logo />
+      <logo />
       <span class="logo-text-sm">FitManage Pro</span>
     </router-link>
 

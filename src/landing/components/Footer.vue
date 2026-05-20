@@ -4,7 +4,7 @@
       <div class="footer-main">
         <div class="brand-section">
           <div class="logo-wrapper">
-            <img src="@/assets/icono.png" alt="FitManage Pro" class="footer-logo">
+            <img src="@/assets/logo.png" alt="FitManage Pro" class="footer-logo">
           </div>
           <h3 class="brand-name">FitManage Pro</h3>
           <p class="brand-desc">Sistema de gestión de pagos y optimización deportiva.</p>
