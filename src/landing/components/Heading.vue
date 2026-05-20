@@ -24,7 +24,7 @@ const toggleMenu = () => {
         <div class="logo-box">
           <img src="@/assets/logo.png" alt="Icono The Gym" class="logo-img" />
         </div>
-        <span class="logo-text">THE GYM</span>
+        <span class="logo-text">FitManage Pro</span>
       </div>
 
       <div class="desktop-links">

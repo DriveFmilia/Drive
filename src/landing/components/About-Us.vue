@@ -26,7 +26,7 @@ const router = useRouter();
           </div>
 
           <div class="action-group">
-            <button @click="router.push('/registro')" class="btn-main">
+            <button @click="router.push('/Record')" class="btn-main">
               EMPEZAR AHORA
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
             </button>

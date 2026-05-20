@@ -4,7 +4,7 @@
       <div class="logo-circle-sm">
         <img src="@/assets/logo.png" alt="Logo" class="logo-img-sm" />
       </div>
-      <span class="logo-text-sm">The Gym</span>
+      <span class="logo-text-sm">FitManage Pro</span>
     </router-link>
 
     <main class="recovery-container">
