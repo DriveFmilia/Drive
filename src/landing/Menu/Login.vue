@@ -52,7 +52,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import Logo from '@/components/Common/Logo.vue';
+import Logo from '@/landing/logo.vue';
 
 const router = useRouter();
 const email = ref('');

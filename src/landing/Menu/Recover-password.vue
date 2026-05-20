@@ -51,7 +51,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import Logo from '@/components/Common/Logo.vue';
+import Logo from '@/landing/logo.vue';
 
 const email = ref('');
 const birthDate = ref('');

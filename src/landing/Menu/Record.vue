@@ -176,7 +176,7 @@
 
 <script setup lang="ts">
 import { reactive, ref } from 'vue';
-import Logo from '@/components/Common/Logo.vue';
+import Logo from '@/landing/logo.vue';
 
 const allDays = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
 const fileInput = ref<HTMLInputElement | null>(null);
