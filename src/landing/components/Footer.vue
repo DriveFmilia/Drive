@@ -4,7 +4,7 @@
       <div class="footer-main">
         <div class="brand-section">
           <div class="logo-wrapper">
-            <img src="../../assets/icono2.png" alt="The Gym" class="footer-logo">
+            <img src="@/assets/icono2.png" alt="FitManage Pro" class="footer-logo">
           </div>
           <h3 class="brand-name">FitManage Pro</h3>
           <p class="brand-desc">Sistema de gestión de pagos y optimización deportiva.</p>
@@ -40,7 +40,7 @@
           <a href="#">Aviso de Privacidad</a>
           <a href="#">Términos de Uso</a>
         </div>
-        <p class="copyright">© 2026 The Gym. Todos los derechos reservados.</p>
+        <p class="copyright">© 2026 FitManage Pro. Todos los derechos reservados.</p>
       </div>
     </div>
   </footer>

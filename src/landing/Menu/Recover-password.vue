@@ -2,7 +2,7 @@
   <div class="recovery-page">
     <router-link :to="{ name: 'home' }" class="top-brand">
       <div class="logo-circle-sm">
-        <img src="@/assets/logo.png" alt="Logo" class="logo-img-sm" />
+        <img src="@/assets/icono2.png" alt="Logo" class="logo-img-sm" />
       </div>
       <span class="logo-text-sm">FitManage Pro</span>
     </router-link>
