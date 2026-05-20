@@ -71,7 +71,7 @@ const currentView = ref<'web' | 'mobile'>('web');
                     <div class="mockup-url">fitmanage.pro/dashboard</div>
                   </div>
                   <div class="mockup-body">
-                    <img src="../assets/fondo.jpg" alt="Dashboard Web Preview" class="web-preview-img" />
+                    <img src="@/assets/fondo.jpg" alt="Dashboard Web Preview" class="web-preview-img" />
                   </div>
                 </div>
 
@@ -81,7 +81,7 @@ const currentView = ref<'web' | 'mobile'>('web');
                   <div class="phone-power-btn"></div>
                   
                   <div class="phone-screen">
-                    <img src="../assets/imagen2.png" alt="App Atleta Preview" class="phone-preview-img" />
+                    <img src="@/assets/Contenido/imagen2.png" alt="App Atleta Preview" class="phone-preview-img" />
                   </div>
                 </div>
 
