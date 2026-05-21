@@ -27,7 +27,7 @@
             <svg viewBox="0 0 24 24" class="svg-icon"><path d="M3 4.5V8h2V4.5A1.5 1.5 0 0 1 6.5 3H10V1H6.5A3.5 3.5 0 0 0 3 4.5zm14.5-3.5H14v2h3.5A1.5 1.5 0 0 1 19 4.5V8h2V4.5A3.5 3.5 0 0 0 17.5 1zM3 17.5V14h2v3.5A1.5 1.5 0 0 0 6.5 19H10v2H6.5A3.5 3.5 0 0 1 3 17.5zm18 0V14h-2v3.5a1.5 1.5 0 0 1-1.5 1.5H14v2h3.5a3.5 3.5 0 0 1 3.5-3.5zM7 7h4v4H7V7zm5-1h4v4h-4V6zM7 13h4v4H7v-4zm5 0h1v1h-1v-1zm1 1h1v1h-1v-1zm-1 1h1v1h-1v-1zm3-2h1v1h-1v-1zm-1 1h1v1h-1v-1zm1 1h1v1h-1v-1z"/></svg>
           </button>
 
-          <button class="nav-action-btn glass-effect notification" title="Notificaciones">
+          <button class="nav-action-btn glass-effect notification" @click="isNotificationsOpen = true" title="Notificaciones">
             <span class="dot"></span>
             <svg viewBox="0 0 24 24" class="svg-icon"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
           </button>
@@ -74,6 +74,12 @@
         </div>
       </main>
       
+      <NotificationsPanel 
+        :is-open="isNotificationsOpen" 
+        :notifications="notifications" 
+        @close="isNotificationsOpen = false"
+      />
+
       <transition name="pop">
         <div v-if="activeModal" class="modal-wrapper" @click.self="closeModal">
           
@@ -94,7 +100,7 @@
             <div class="panel-footer">
               <p v-if="activeModal === 'facial'">Coloca tu rostro dentro del círculo</p>
               <p v-else>Centra el código QR en el recuadro</p>
-              <button class="action-btn-full" @click="closeModal">Cancelar</button>
+              <button class="action-btn-full outline" @click="closeModal">Cancelar</button>
             </div>
           </div>
 
@@ -130,24 +136,25 @@
           <div v-if="activeModal === 'add-schedule'" class="form-panel glass-effect">
             <div class="panel-header">
               <h2 class="form-title">Nueva Actividad</h2>
+              <button class="close-x" @click="closeModal">&times;</button>
             </div>
             <div class="form-body">
               <div class="input-group">
-                <label>Dia de la Semana</label>
-                <select class="custom-select">
+                <label for="dayOfWeek">Día de la Semana</label>
+                <select id="dayOfWeek" class="custom-select">
                   <option>Seleccionar día...</option>
                   <option>Lunes</option>
                   <option>Martes</option>
-                  <option>Miercoles</option>
+                  <option>Miércoles</option>
                   <option>Jueves</option>
                   <option>Viernes</option>
-                  <option>Sabado</option>
+                  <option>Sábado</option>
                   <option>Domingo</option>
                 </select>
               </div>
               <div class="input-group">
-                <label>Nombre de Actividad</label>
-                <input type="text" placeholder="Ej. Crossfit" class="custom-input">
+                <label for="activityName">Nombre de Actividad</label>
+                <input id="activityName" type="text" placeholder="Ej. Crossfit" class="custom-input">
               </div>
               <div class="time-row">
                 <div class="input-group">
@@ -167,7 +174,7 @@
           </div>
 
           <div v-if="activeModal === 'view-schedule'" class="table-panel glass-effect">
-            <div class="panel-header2">
+            <div class="panel-header">
               <h3>Horario Semanal</h3>
               <button class="close-x" @click="closeModal">&times;</button>
             </div>
@@ -177,10 +184,10 @@
                   <tr>
                     <th>Lunes</th>
                     <th>Martes</th>
-                    <th>Miercoles</th>
+                    <th>Miércoles</th>
                     <th>Jueves</th>
                     <th>Viernes</th>
-                    <th>Sabados</th>
+                    <th>Sábado</th>
                     <th>Domingo</th>
                   </tr>
                 </thead>
@@ -199,27 +206,28 @@
   </div>
 </template>
 
-
-<style scoped>
-@import '../../assets/Admin/Dashoard.css';
-</style>
-
 <script setup>
 import { ref, onBeforeUnmount } from 'vue';
 import Sidebar from '../../components/Admin/Sidebar.vue';
+import NotificationsPanel from './Notifications/NotificationsPanel.vue';
 
 const isSidebarOpen = ref(false);
+const isNotificationsOpen = ref(false);
 const activeModal = ref(null);
 const videoPlayer = ref(null);
 let stream = null;
 
+const notifications = ref([
+  { id: 1, title: 'Carlos Atleta', message: 'Cliente inactivo por 29 días', time: 'hace 7 días', read: false },
+  { id: 2, title: 'Sofia Runner', message: 'Cliente inactivo por 26 días', time: 'hace 7 días', read: false },
+  { id: 3, title: 'Pedro Crossfit', message: 'Cliente inactivo por 25 días', time: 'hace 7 días', read: false }
+]);
+
 const toggleSidebar = () => { isSidebarOpen.value = !isSidebarOpen.value; };
 
-// Lógica de Cámara
 const openCamera = async (type) => {
   activeModal.value = type;
   try {
-    // Pequeño delay para asegurar que el ref del video esté disponible tras el v-if
     setTimeout(async () => {
       stream = await navigator.mediaDevices.getUserMedia({ 
         video: { facingMode: type === 'scanner' ? 'environment' : 'user' } 
@@ -244,3 +252,7 @@ const closeModal = () => {
 
 onBeforeUnmount(() => closeModal());
 </script>
+
+<style scoped>
+@import '../../assets/Admin/Dashoard.css';
+</style>
