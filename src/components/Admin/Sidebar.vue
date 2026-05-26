@@ -138,29 +138,6 @@
       </div>
     </nav>
 
-    <div class="main-content">
-      <header class="top-bar">
-        <button class="mobile-toggle" @click="toggleSidebar" aria-label="Menu">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
-        </button>
-        <div class="top-icons">
-          </div>
-      </header>
-
-      <main class="dashboard-body">
-        <div class="brand-card">
-          <h1>ULTRA FITNESS CENTER</h1>
-        </div>
-        <div class="actions-container">
-          <button class="action-btn">
-            <span>Acción 1</span>
-          </button>
-          <button class="action-btn">
-            <span>Acción 2</span>
-          </button>
-        </div>
-      </main>
-    </div>
   </div>
 </template>
 
