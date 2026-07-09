@@ -211,7 +211,7 @@ const handleSubmit = () => {
   color: #f5f5f4;
 }
 
-.highlight-text { color: #3a6bd6; }
+.highlight-texto { color: #3a6bd6; }
 
 .subtitle { font-size: 14px; color: rgba(245, 245, 244, 0.55); margin: 0; }
 
