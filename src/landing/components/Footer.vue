@@ -1,13 +1,21 @@
+<script setup lang="ts">
+import { useReveal } from '../useReveal';
+
+const { el, revealed } = useReveal();
+</script>
+
 <template>
+  <section id="cta-final" ref="el" class="cta-final" :class="{ revealed }">
+    <div class="cta-text">Digitaliza tu gimnasio hoy mismo</div>
+    <router-link to="/Record" class="cta-btn">Empezar ahora</router-link>
+  </section>
+
   <footer class="footer-custom">
     <div class="container">
       <div class="footer-main">
-        
+
         <div class="brand-section">
-        <!--<div class="logo-wrapper">
-            <img src="@/assets/logo.png" alt="The Gym" class="footer-logo">
-          </div>-->
-          <h3 class="brand-name">FitManage Pro</h3>
+          <h3 class="brand-name">FITMANAGE <span class="text-accent">PRO</span></h3>
           <p class="brand-desc">Sistema de gestión de pagos y optimización deportiva.</p>
         </div>
 
@@ -31,8 +39,8 @@
         </div>
 
         <div class="actions-section">
-          <router-link to="/Record" class="btn btn-primary">EMPEZAR AHORA</router-link>
-          <router-link to="/Login" class="btn btn-secondary">ACCESO STAFF</router-link>
+          <router-link to="/Record" class="btn btn-primary">Empezar ahora</router-link>
+          <router-link to="/Login" class="btn btn-secondary">Acceso staff</router-link>
         </div>
       </div>
 
@@ -48,109 +56,124 @@
 </template>
 
 <style scoped>
-.footer-custom {
-  background: #06090b;
-  color: white;
-  padding: 60px 0 30px;
-  font-family: 'Inter', sans-serif;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+.cta-final {
+  padding: clamp(50px, 8vw, 90px) clamp(20px, 5vw, 60px);
+  background: #1c4fd6;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
 }
 
-.container {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 2rem;
+.cta-final.revealed { opacity: 1; transform: translateY(0); }
+
+.cta-text {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(1.8rem, 4.5vw, 2.6rem);
+  line-height: 1.05;
+  color: #ffffff;
+  text-transform: uppercase;
+  max-width: 640px;
 }
+
+.cta-btn {
+  background: #ffffff;
+  color: #1c4fd6;
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  padding: 18px 36px;
+  border-radius: 10px;
+  text-decoration: none;
+  white-space: nowrap;
+  min-height: 52px;
+  display: inline-flex;
+  align-items: center;
+  transition: transform 0.25s ease;
+}
+
+.cta-btn:hover { transform: translateY(-3px); }
+
+.footer-custom {
+  padding: clamp(40px, 6vw, 60px) clamp(20px, 5vw, 60px) 28px;
+  background: #0a0a0a;
+  color: #f5f5f4;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  font-family: 'Inter', sans-serif;
+}
+
+.container { max-width: 1400px; margin: 0 auto; }
 
 .footer-main {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
-  align-items: center;
-  gap: 40px;
-  padding-bottom: 40px;
+  gap: 32px;
+  padding-bottom: 36px;
 }
 
-.brand-section {
-  text-align: left;
-  flex: 1;
-}
-
-.logo-wrapper {
-  background: white;
-  width: 46px;
-  height: 46px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 12px;
-  padding: 6px;
-}
-
-.footer-logo {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
+.brand-section { flex: 1; min-width: 220px; }
 
 .brand-name {
-  font-family: 'Archivo Black', sans-serif;
-  font-size: 1.3rem;
-  color: white;
-  letter-spacing: -0.5px;
+  font-family: 'Anton', sans-serif;
+  font-size: 18px;
+  margin: 0;
 }
 
+.text-accent { color: #3a6bd6; }
+
 .brand-desc {
-  font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.5);
+  font-size: 13px;
+  color: rgba(245, 245, 244, 0.5);
   max-width: 260px;
-  margin: 10px 0 0;
+  margin-top: 10px;
   line-height: 1.5;
 }
 
-.contact-section {
-  text-align: center;
-  flex: 1;
-}
+.contact-section { flex: 1; min-width: 220px; text-align: center; }
 
 .section-title {
-  font-family: 'Inter', sans-serif;
-  font-weight: 800;
-  font-size: 0.8rem;
-  margin-bottom: 15px;
-  letter-spacing: 1px;
-  color: rgba(255,255,255,0.4);
+  font-family: 'Oswald', sans-serif;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  color: rgba(245, 245, 244, 0.4);
+  margin-bottom: 14px;
+  text-transform: uppercase;
 }
 
 .social-icons {
   display: flex;
   justify-content: center;
-  gap: 16px;
+  gap: 12px;
   margin-bottom: 16px;
 }
 
 .social-link {
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.08);
-  width: 38px;
-  height: 38px;
+  background: #141414;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
+  color: #f5f5f4;
   transition: all 0.2s ease;
 }
 
-.social-link svg {
-  width: 16px;
-  height: 16px;
-  fill: currentColor;
-}
+.social-link svg { width: 15px; height: 15px; fill: currentColor; }
 
 .social-link:hover {
-  background: white;
-  color: black;
+  background: #1c4fd6;
+  border-color: #1c4fd6;
+  color: #ffffff;
   transform: translateY(-2px);
 }
 
@@ -158,85 +181,66 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  color: rgba(255, 255, 255, 0.6);
-  text-decoration: none;
-  font-size: 0.85rem;
+  color: rgba(245, 245, 244, 0.55);
+  font-size: 13px;
   transition: color 0.2s;
 }
 
-.email-link:hover {
-  color: #a6d2eb;
-}
+.email-link:hover { color: #4a7cf0; }
 
 .email-icon { width: 14px; }
 
 .actions-section {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
   flex: 1;
+  min-width: 220px;
   align-items: flex-end;
 }
 
 .btn {
-  width: 180px;
-  padding: 14px;
-  border-radius: 8px;
-  font-weight: 800;
-  font-size: 0.8rem;
+  width: 170px;
   text-align: center;
-  text-decoration: none;
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  padding: 13px;
+  border-radius: 8px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: all 0.2s;
 }
 
-.btn-primary {
-  background: white;
-  color: black;
-}
-
-.btn-secondary {
-  background: #11181c;
-  color: white;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.btn:hover {
-  transform: translateY(-2px);
-  opacity: 0.9;
-}
+.btn-primary { background: #1c4fd6; color: #ffffff; }
+.btn-secondary { background: transparent; color: #f5f5f4; border: 1px solid rgba(255, 255, 255, 0.08); }
+.btn:hover { transform: translateY(-2px); opacity: 0.92; }
 
 .footer-bottom {
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
-  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding-top: 20px;
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
-  font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.4);
+  gap: 12px;
+  font-size: 11.5px;
+  color: rgba(245, 245, 244, 0.4);
 }
 
-.legal-links { display: flex; gap: 24px; }
-.legal-links a { color: rgba(255, 255, 255, 0.4); text-decoration: none; transition: color 0.2s; }
-.legal-links a:hover { color: white; }
+.legal-links { display: flex; gap: 20px; }
+.legal-links a { color: rgba(245, 245, 244, 0.4); }
+.legal-links a:hover { color: #f5f5f4; }
+
+.copyright { margin: 0; }
 
 @media (max-width: 1024px) {
-  .footer-main {
-    flex-direction: column;
-    text-align: center;
-    gap: 40px;
-  }
-  .brand-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-  .actions-section {
-    align-items: center;
-  }
-  .footer-bottom {
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-  }
+  .footer-main { flex-direction: column; text-align: center; }
+  .brand-section, .actions-section { align-items: center; }
+  .actions-section { align-items: center; }
+  .footer-bottom { flex-direction: column; align-items: center; gap: 16px; text-align: center; }
 }
 </style>

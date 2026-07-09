@@ -21,30 +21,12 @@ const scrollToSection = (id: string) => {
     <Heading @navigate="scrollToSection" />
 
     <main class="flex-grow">
-      <section id="sobre-nosotros">
-        <AboutUs />
-      </section>
-
-      <section id="beneficios">
-        <Benefits />
-      </section>
-
-      <section id="roles">
-        <Roles />
-      </section>
-
-      <section id="mensualidades">
-        <MonthlyPayments />
-      </section>
+      <AboutUs />
+      <Benefits />
+      <Roles />
+      <MonthlyPayments />
     </main>
-
 
     <Footer />
   </div>
 </template>
-
-<style scoped>
-section {
-  scroll-margin-top: 80px; 
-}
-</style>

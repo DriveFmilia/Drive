@@ -1,14 +1,22 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import Logo from '../logo.vue';
 
 const isMenuOpen = ref(false);
+
+const NAV_LINKS = [
+  { id: 'sobre-nosotros', label: 'Sobre nosotros' },
+  { id: 'beneficios', label: 'Beneficios' },
+  { id: 'roles', label: 'Roles' },
+  { id: 'mensualidades', label: 'Mensualidades' },
+];
 
 const scrollToSection = (id: string) => {
   const element = document.getElementById(id);
   if (element) {
     element.scrollIntoView({ behavior: 'smooth' });
   }
-  isMenuOpen.value = false; 
+  isMenuOpen.value = false;
 };
 
 const toggleMenu = () => {
@@ -17,63 +25,55 @@ const toggleMenu = () => {
 </script>
 
 <template>
-  <nav class="nav-wrapper">
+  <header class="nav-wrapper">
     <div class="nav-container">
-      
-      <div class="logo-section" @click="scrollToSection('hero')">
-        <div class="logo-box">
-          <img src="@/assets/Contenido/imagen2.png" alt="Icono The Gym" class="logo-img" />
-        </div>
-        <span class="logo-text">FitManage Pro</span>
+
+      <div class="logo-section" @click="scrollToSection('sobre-nosotros')">
+        <Logo />
+        <span class="logo-text">FITMANAGE <span class="text-accent">PRO</span></span>
       </div>
 
-      <div class="desktop-links">
-        <button @click="scrollToSection('sobre-nosotros')" class="nav-link">Sobre nosotros</button>
-        <button @click="scrollToSection('beneficios')" class="nav-link">Beneficios</button>
-        <button @click="scrollToSection('roles')" class="nav-link">Roles</button>
-        <button @click="scrollToSection('mensualidades')" class="nav-link">Mensualidades</button>
-      </div>
+      <nav class="desktop-links">
+        <button v-for="link in NAV_LINKS" :key="link.id" @click="scrollToSection(link.id)" class="nav-link">
+          {{ link.label }}
+        </button>
+      </nav>
 
       <div class="auth-actions">
-        <router-link to="/Login" class="login-btn">LOGIN</router-link>
-        <router-link to="/Record" class="register-btn">REGISTRAR GYM</router-link>
-        
-        <button class="mobile-toggle" @click="toggleMenu" aria-label="Menu">
-          <div :class="['hamburger', { 'is-active': isMenuOpen }]">
-            <span></span><span></span><span></span>
-          </div>
-        </button>
+        <router-link to="/login" class="login-link">Iniciar sesión</router-link>
+        <router-link to="/Record" class="register-btn">Registrar Gym</router-link>
       </div>
+
+      <button class="mobile-toggle" aria-label="Abrir menú" @click="toggleMenu">
+        <div :class="['hamburger', { 'is-active': isMenuOpen }]">
+          <span></span><span></span><span></span>
+        </div>
+      </button>
     </div>
 
     <Transition name="slide">
       <div v-if="isMenuOpen" class="mobile-menu">
-        <div class="mobile-links">
-          <button @click="scrollToSection('sobre-nosotros')">Sobre nosotros</button>
-          <button @click="scrollToSection('beneficios')">Beneficios</button>
-          <button @click="scrollToSection('roles')">Roles</button>
-          <button @click="scrollToSection('mensualidades')">Mensualidades</button>
-          <hr class="divider" />
-          <router-link to="/Login" @click="isMenuOpen = false" class="m-login">Iniciar Sesión</router-link>
-          <router-link to="/Record" @click="isMenuOpen = false" class="m-register">Registrar tu Gimnasio</router-link>
-        </div>
+        <button v-for="link in NAV_LINKS" :key="link.id" @click="scrollToSection(link.id)" class="mobile-link">
+          {{ link.label }}
+        </button>
+        <hr class="divider" />
+        <router-link to="/login" @click="isMenuOpen = false" class="m-login">Iniciar sesión</router-link>
+        <router-link to="/Record" @click="isMenuOpen = false" class="m-register">Registrar tu Gimnasio</router-link>
       </div>
     </Transition>
-  </nav>
+  </header>
 </template>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@600;800&display=swap');
-
 .nav-wrapper {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   z-index: 100;
-  background: rgba(10, 15, 18, 0.75);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(10, 10, 10, 0.82);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   font-family: 'Inter', sans-serif;
 }
@@ -81,11 +81,12 @@ const toggleMenu = () => {
 .nav-container {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0 2rem;
-  height: 75px;
+  padding: 0 clamp(20px, 4vw, 60px);
+  height: 84px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 16px;
 }
 
 .logo-section {
@@ -95,89 +96,76 @@ const toggleMenu = () => {
   cursor: pointer;
 }
 
-.logo-box {
-  background: white;
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  padding: 6px;
-  transition: transform 0.3s ease;
-}
-
-.logo-img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
-.logo-section:hover .logo-box {
-  transform: scale(1.05);
-}
-
 .logo-text {
-  font-family: 'Archivo Black', sans-serif;
-  font-size: 1.3rem;
-  color: white;
-  letter-spacing: -0.5px;
+  font-family: 'Anton', sans-serif;
+  font-size: 19px;
+  letter-spacing: 0.3px;
+  line-height: 1;
+  white-space: nowrap;
+  color: #f5f5f4;
+}
+
+.text-accent {
+  color: #1c4fd6;
 }
 
 .desktop-links {
   display: flex;
-  gap: 32px;
+  align-items: center;
+  gap: 30px;
 }
 
 .nav-link {
-  font-size: 0.85rem;
+  font-family: 'Oswald', sans-serif;
+  font-size: 13px;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.65);
+  letter-spacing: 0.6px;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  color: rgba(245, 245, 244, 0.62);
   background: none;
   border: none;
   cursor: pointer;
-  transition: color 0.3s;
+  padding: 8px 0;
+  transition: color 0.25s;
 }
 
 .nav-link:hover {
-  color: #a6d2eb;
+  color: #f5f5f4;
 }
 
 .auth-actions {
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: 20px;
 }
 
-.login-btn {
-  font-weight: 800;
-  font-size: 0.8rem;
-  color: white;
-  letter-spacing: 1px;
+.login-link {
+  font-family: 'Oswald', sans-serif;
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  color: #f5f5f4;
+  text-transform: uppercase;
   text-decoration: none;
-  transition: color 0.3s;
-}
-
-.login-btn:hover {
-  color: #a6d2eb;
 }
 
 .register-btn {
-  background: white;
-  color: black;
-  padding: 10px 22px;
+  background: #1c4fd6;
+  color: #ffffff;
+  font-family: 'Oswald', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  padding: 12px 20px;
   border-radius: 8px;
-  font-weight: 800;
-  font-size: 0.75rem;
   text-decoration: none;
-  transition: all 0.3s ease;
+  white-space: nowrap;
+  transition: all 0.25s ease;
 }
 
 .register-btn:hover {
-  background: #a6d2eb;
+  background: #123ba0;
   transform: translateY(-2px);
 }
 
@@ -186,64 +174,84 @@ const toggleMenu = () => {
   background: none;
   border: none;
   cursor: pointer;
+  padding: 8px;
 }
 
 .hamburger span {
   display: block;
   width: 24px;
   height: 2px;
-  background: white;
+  background: #f5f5f4;
   margin: 6px 0;
-  transition: 0.3s ease;
+  transition: 0.25s;
 }
 
-/* Animación del botón hamburguesa */
 .hamburger.is-active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
 .hamburger.is-active span:nth-child(2) { opacity: 0; }
 .hamburger.is-active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 
 .mobile-menu {
   position: fixed;
-  top: 75px;
+  top: 84px;
   left: 0;
   width: 100%;
-  height: calc(100vh - 75px);
-  background: rgba(10, 15, 18, 0.98);
-  backdrop-filter: blur(20px);
-  padding: 2.5rem;
+  height: calc(100vh - 84px);
+  background: rgba(8, 8, 8, 0.99);
   z-index: 99;
-}
-
-.mobile-links {
+  padding: 32px 28px;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 26px;
+  overflow-y: auto;
 }
 
-.mobile-links button, .mobile-links a {
+.mobile-link {
   text-align: left;
-  font-size: 1.4rem;
-  font-weight: 700;
-  color: white;
+  font-family: 'Oswald', sans-serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: #f5f5f4;
   background: none;
   border: none;
-  text-decoration: none;
+  cursor: pointer;
+  padding: 0;
 }
-
-.m-login { color: rgba(255,255,255,0.7) !important; }
-.m-register { color: #a6d2eb !important; }
 
 .divider {
   border: none;
-  border-top: 1px solid rgba(255,255,255,0.1);
-  margin: 8px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin: 6px 0;
+  width: 100%;
+}
+
+.m-login, .m-register {
+  font-family: 'Oswald', sans-serif;
+  text-decoration: none;
+}
+
+.m-login {
+  font-size: 16px;
+  font-weight: 700;
+  color: rgba(245, 245, 244, 0.85);
+}
+
+.m-register {
+  background: #1c4fd6;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  padding: 16px;
+  border-radius: 10px;
+  text-align: center;
 }
 
 .slide-enter-active, .slide-leave-active { transition: all 0.3s ease; }
 .slide-enter-from, .slide-leave-to { opacity: 0; transform: translateY(-15px); }
 
-@media (max-width: 1024px) {
-  .desktop-links, .login-btn, .register-btn { display: none; }
+@media (max-width: 960px) {
+  .desktop-links, .auth-actions { display: none; }
   .mobile-toggle { display: block; }
 }
 </style>

@@ -1,59 +1,30 @@
+<script setup lang="ts">
+import { useReveal } from '../useReveal';
+
+const { el, revealed } = useReveal();
+</script>
+
 <template>
-  <section class="benefits-wrapper">
+  <section id="beneficios" ref="el" class="benefits-wrapper">
     <div class="container">
-      <div class="header">
-        <h2 class="main-title">
-          ALGUNOS DE <br />
-          <span class="text-accent">NUESTROS BENEFICIOS</span>
-        </h2>
-      </div>
+      <h2 class="main-title" :class="{ revealed }">
+        ALGUNOS DE NUESTROS<br /><span class="text-accent">BENEFICIOS</span>
+      </h2>
 
       <div class="benefits-grid">
-        <div class="benefit-card">
-          <div class="card-content">
-            <h3 class="card-title">Gestión integral de pagos</h3>
-            <p class="card-text">
-              Controla ingresos, saldos pendientes y deudores de forma automática. 
-              Incluye recordatorios inteligentes para asegurar tu flujo de caja.
-            </p>
-          </div>
-          <div class="card-icon">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-              <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
-            </svg>
-          </div>
+        <div class="benefit-card" :class="{ revealed }" style="transition-delay:0s">
+          <h3 class="card-title">Gestión integral de pagos</h3>
+          <p class="card-text">Controla ingresos, saldos pendientes y deudores automáticamente, con recordatorios inteligentes para tu flujo de caja.</p>
         </div>
 
-        <div class="benefit-card highlighted">
-          <div class="card-content">
-            <h3 class="card-title">Acceso inteligente y seguro</h3>
-            <p class="card-text">
-              Seguridad sin brechas, accesos bajo control. Implementamos asistencia 
-              facial y códigos QR para asegurar que solo ingresen quienes deben.
-            </p>
-          </div>
-          <div class="card-icon">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-              <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-              <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-            </svg>
-          </div>
+        <div class="benefit-card highlighted" :class="{ revealed }" style="transition-delay:0.1s">
+          <h3 class="card-title">Acceso inteligente y seguro</h3>
+          <p class="card-text">Asistencia facial y códigos QR aseguran que solo ingresen quienes deben, sin brechas de seguridad.</p>
         </div>
 
-        <div class="benefit-card">
-          <div class="card-content">
-            <h3 class="card-title">Inteligencia Artificial</h3>
-            <p class="card-text">
-              Tu información a una pregunta de distancia. Con el Asistente Personalizado con IA, 
-              obtén reportes en segundos sin navegar por menús complejos.
-            </p>
-          </div>
-          <div class="card-icon">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-              <circle cx="12" cy="12" r="9" />
-              <circle cx="12" cy="12" r="4" />
-            </svg>
-          </div>
+        <div class="benefit-card" :class="{ revealed }" style="transition-delay:0.2s">
+          <h3 class="card-title">Inteligencia artificial</h3>
+          <p class="card-text">Reportes al instante con el Asistente IA — tu información a una pregunta de distancia, sin menús complejos.</p>
         </div>
       </div>
     </div>
@@ -61,115 +32,77 @@
 </template>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;600;700&display=swap');
-
 .benefits-wrapper {
-  background: linear-gradient(180deg, #211049 0%, #8485c4 50%, #ffffff 100%);
-  padding: 120px 0;
+  scroll-margin-top: 84px;
+  padding: clamp(60px, 9vw, 110px) clamp(20px, 5vw, 60px);
+  background: #121212;
   font-family: 'Inter', sans-serif;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
 }
 
-.container {
-  max-width: 1300px;
-  margin: 0 auto;
-  padding: 0 4%;
-}
-
-.header {
-  margin-bottom: 80px;
-}
+.container { max-width: 1300px; margin: 0 auto; }
 
 .main-title {
-  font-family: 'Archivo Black', sans-serif;
-  font-size: clamp(2.5rem, 4vw, 5rem);
-  line-height: 0.9;
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(1.9rem, 5vw, 3.4rem);
+  line-height: 0.95;
   text-transform: uppercase;
-  color: white;
-  margin: 0;
+  margin: 0 0 50px;
+  color: #f5f5f4;
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
 }
 
-.text-accent {
-  color: #a68ab8;
-}
+.main-title.revealed { opacity: 1; transform: translateY(0); }
+
+.text-accent { color: #3a6bd6; }
 
 .benefits-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 25px;
-  align-items: stretch;
+  grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+  gap: 22px;
 }
 
 .benefit-card {
-  background: rgba(33, 16, 73, 0.4);
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 30px;
-  padding: 45px 35px;
+  background: #1b1b1b;
+  color: #f5f5f4;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: clamp(28px, 3vw, 38px) clamp(24px, 3vw, 32px);
+  min-height: 250px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  transition: all 0.4s ease;
-  color: white;
+  opacity: 0;
+  transition: transform 0.3s ease, opacity 0.6s ease;
 }
 
-.benefit-card:hover {
-  transform: translateY(-10px);
-  background: rgba(33, 16, 73, 0.6);
-  border-color: rgba(255, 255, 255, 0.4);
-}
+.benefit-card.revealed { opacity: 1; }
+.benefit-card:hover { transform: translateY(-6px); }
 
 .benefit-card.highlighted {
-  background: #ffffff;
-  color: #211049;
-  border: none;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
-}
-
-.benefit-card.highlighted .card-text {
-  color: #4b5563;
+  background: #1c4fd6;
+  color: #ffffff;
+  border-color: transparent;
 }
 
 .card-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: 20px;
   font-weight: 700;
-  font-size: 1.6rem;
-  margin-bottom: 20px;
-  line-height: 1.2;
+  margin: 0 0 14px;
 }
 
 .card-text {
-  line-height: 1.7;
-  font-size: 1.1rem;
-  color: rgba(255, 255, 255, 0.95);
-  font-weight: 400;
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: rgba(245, 245, 244, 0.62);
+  margin: 0;
 }
 
-.benefit-card.highlighted .card-text {
-  color: #374151;
-}
-
-.card-icon {
-  margin-top: 40px;
-  align-self: flex-end;
-  opacity: 0.8;
-}
-
-.benefit-card.highlighted .card-icon {
-  color: #211049;
-  opacity: 1;
-}
+.benefit-card.highlighted .card-text { color: rgba(255, 255, 255, 0.82); }
 
 @media (max-width: 1024px) {
-  .header {
-    text-align: center;
-  }
-  .benefits-grid {
-    grid-template-columns: 1fr;
-    max-width: 500px;
-    margin: 0 auto;
-  }
+  .container { text-align: center; }
 }
 </style>
