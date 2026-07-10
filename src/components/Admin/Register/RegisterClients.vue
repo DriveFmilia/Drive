@@ -4,7 +4,23 @@
       <div v-if="isSidebarOpen" class="sidebar-overlay" @click="toggleSidebar"></div>
     </transition>
 
-    <Main/> 
+    <aside class="sidebar-container">
+      <Sidebar />
+    </aside>
+
+    <nav class="top-nav">
+      <div class="nav-left">
+        <button class="icon-btn" @click="toggleSidebar" aria-label="Menú">
+          <svg viewBox="0 0 24 24" class="svg-icon"><path d="M4 4h4v4H4V4zm6 0h4v4h-4V4zm6 0h4v4h-4V4zM4 10h4v4H4v-4zm6 0h4v4h-4v-4zm6 0h4v4h-4v-4zM4 16h4v4H4v-4zm6 0h4v4h-4v-4zm6 0h4v4h-4v-4z"/></svg>
+        </button>
+      </div>
+      <div class="nav-right">
+        <button class="icon-btn notification" @click="isNotificationsOpen = true">
+          <span class="dot"></span>
+          <svg viewBox="0 0 24 24" class="svg-icon"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
+        </button>
+      </div>
+    </nav>
 
     <main class="main-content">
       <div class="header-side">
@@ -67,7 +83,8 @@
 
 <script setup>
 import { ref } from 'vue';
-import Main from '../../../landing/Main.vue';
+import Sidebar from '../Sidebar.vue';
+import NotificationsPanel from '../Notifications/NotificationsPanel.vue';
 
 const fileInput = ref(null);
 const isSidebarOpen = ref(false);
@@ -80,7 +97,6 @@ const openCamera = async () => { try { await navigator.mediaDevices.getUserMedia
 </script>
 
 <style scoped>
-@import '../../../assets/Admin/Main.css';
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap');
 .app-wrapper { min-height: 100vh; background: linear-gradient(180deg, #06090bd2 0%, #b4e9ff8e 50%, #1a262c65 100%); font-family: 'Inter', sans-serif; overflow-x: hidden; }
 
@@ -102,13 +118,10 @@ const openCamera = async () => { try { await navigator.mediaDevices.getUserMedia
 .icon-btn { position: relative; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 12px; cursor: pointer; }
 .svg-icon { width: 24px; height: 24px; fill: white; }
 .dot { position: absolute; top: 5px; right: 5px; width: 8px; height: 8px; background: #ef4444; border-radius: 50%; }
-
-/* REAJUSTE DE LAYOUT */
-.main-content { display: flex; align-items: center; justify-content: center; gap: 5%; padding: 40px; min-height: 80vh; flex-direction: row; }
-.header-side { flex: 1; display: flex; flex-direction: column; align-items: flex-start; }
-.main-title { font-weight: 800; font-size: 3.5rem; color: #fff; line-height: 1.1; margin: 0; }
+.main-content { display: flex; align-items: center; justify-content: center; gap: 400px; padding: 40px; min-height: 80vh; flex-wrap: wrap; }
+.main-title { font-weight: 800; font-size: 3.5rem; color: #fff; white-space: nowrap; margin: 0; }
 .highlight { color: #3b82f6; }
-.hero-image-wrapper { width: 350px; margin-top: 20px; animation: float 3s ease-in-out infinite; }
+.hero-image-wrapper { width: 350px; margin: 20px auto 0 auto; animation: float 3s ease-in-out infinite; }
 .hero-image-wrapper img { width: 100%; height: auto; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.3)); }
 @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
 .login-card { background: rgba(15, 23, 42, 0.45); backdrop-filter: blur(20px); padding: 30px; border-radius: 24px; border: 1px solid rgba(255, 255, 255, 0.12); width: 100%; max-width: 420px; color: white; }
@@ -117,11 +130,7 @@ input { width: 100%; padding: 12px; background: rgba(15, 23, 42, 0.6); border: 1
 .btn-primary { width: 100%; padding: 14px; background: #102f72; color: white; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; }
 
 /* RESPONSIVO */
-@media (max-width: 992px) { 
-  .main-content { flex-direction: column; gap: 40px; text-align: center; } 
-  .header-side { align-items: center; }
-  .hero-image-wrapper { display: none; } 
-  .main-title { white-space: normal; font-size: 2.5rem; } 
-}
+@media (max-width: 1200px) { .main-content { gap: 100px; } }
+@media (max-width: 992px) { .hero-image-wrapper { display: none; } .main-content { gap: 40px; padding: 20px; } .main-title { white-space: normal; text-align: center; font-size: 2.5rem; } }
 @media (max-width: 480px) { .form-grid { grid-template-columns: 1fr; } }
 </style>
