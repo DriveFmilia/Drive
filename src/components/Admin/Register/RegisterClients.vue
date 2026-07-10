@@ -67,7 +67,7 @@
 
 <script setup>
 import { ref } from 'vue';
-import Main from './Main.vue';
+import Main from '../../../landing/Main.vue';
 
 const fileInput = ref(null);
 const isSidebarOpen = ref(false);
