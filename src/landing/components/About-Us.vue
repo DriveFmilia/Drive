@@ -7,60 +7,45 @@ const currentView = ref<'web' | 'mobile'>('web');
 </script>
 
 <template>
-  <section class="hero-wrapper">
+  <section id="sobre-nosotros" class="hero-wrapper">
+    <div class="glow"></div>
     <div class="container">
       <div class="hero-grid">
-        
+
         <div class="content-left">
-          <div class="badge">SISTEMA INTEGRAL DE GESTIÓN</div>
-          
+          <div class="badge">Sistema integral de gestión</div>
+
           <h1 class="main-title">
-            EL FUTURO <br />
+            EL FUTURO<br />
             <span class="text-accent">DEL FITNESS</span>
           </h1>
 
           <p class="description">
-            La plataforma ideal para gestionar tu gimnasio de forma inteligente. Centraliza el control de pagos, asistencias, recargos automáticos y optimiza tus flujos de trabajo integrando herramientas para entrenadores, recepcionistas y administradores.
+            La plataforma para gestionar tu gimnasio de forma inteligente: pagos, asistencias, recargos
+            automáticos y herramientas para entrenadores, recepcionistas y administradores, todo en un solo lugar.
           </p>
 
-          <div class="pricing-info">
-            Pruébalo ahora con 2 semanas gratuitas. Plan definitivo por solo $650/mes.
-          </div>
+          <div class="pricing-info">2 semanas gratis · Plan definitivo desde $650/mes</div>
 
           <div class="action-group">
             <button @click="router.push('/Record')" class="btn-main">
-              EMPEZAR AHORA
+              Empezar ahora
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
             </button>
-            <button @click="router.push('/login')" class="btn-staff">
-              ACCESO STAFF
-            </button>
+            <button @click="router.push('/login')" class="btn-staff">Acceso staff</button>
           </div>
         </div>
 
         <div class="content-right">
           <div class="preview-box">
-            
             <div class="view-selector">
-              <button 
-                @click="currentView = 'web'" 
-                :class="['tab-btn', { active: currentView === 'web' }]"
-              >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" /><path d="M8 21h8M12 17v4" /></svg>
-                Vista Web
-              </button>
-              <button 
-                @click="currentView = 'mobile'" 
-                :class="['tab-btn', { active: currentView === 'mobile' }]"
-              >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" /><path d="M12 18h.01" /></svg>
-                Vista Móvil
-              </button>
+              <button @click="currentView = 'web'" :class="['tab-btn', { active: currentView === 'web' }]">Vista Web</button>
+              <button @click="currentView = 'mobile'" :class="['tab-btn', { active: currentView === 'mobile' }]">Vista Móvil</button>
             </div>
 
             <div class="display-area">
               <Transition name="fade-scale" mode="out-in">
-                
+
                 <div v-if="currentView === 'web'" key="web" class="mockup-container">
                   <div class="mockup-header">
                     <div class="dots">
@@ -77,17 +62,13 @@ const currentView = ref<'web' | 'mobile'>('web');
 
                 <div v-else key="mobile" class="phone-container">
                   <div class="phone-island"></div>
-                  <div class="phone-volume-btn"></div>
-                  <div class="phone-power-btn"></div>
-                  
                   <div class="phone-screen">
-                    <img src="@/assets/Contenido/imagen2.png" alt="App Atleta Preview" class="phone-preview-img" />
+                    <img src="@/assets/Contenido/imagen2.png" alt="App Móvil Preview" class="phone-preview-img" />
                   </div>
                 </div>
 
               </Transition>
             </div>
-
           </div>
         </div>
 
@@ -98,127 +79,161 @@ const currentView = ref<'web' | 'mobile'>('web');
 
 <style scoped>
 .hero-wrapper {
-  min-height: 100vh;
-  background: linear-gradient(180deg, #06090b 0%, #111a1e 50%, #1a262c 100%);
-  display: flex;
-  align-items: center;
-  color: white;
-  font-family: 'Inter', sans-serif;
+  scroll-margin-top: 84px;
+  padding: clamp(60px, 9vw, 120px) clamp(20px, 5vw, 60px);
+  position: relative;
   overflow: hidden;
-  padding: 140px 0 80px;
+  background: #0a0a0a;
+  color: #f5f5f4;
+  font-family: 'Inter', sans-serif;
+  padding-top: calc(84px + clamp(60px, 9vw, 120px));
 }
+
+.glow {
+  position: absolute;
+  top: -120px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 640px;
+  height: 640px;
+  max-width: 140vw;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(28,79,214,0.35) 0%, rgba(28,79,214,0) 70%);
+  filter: blur(10px);
+  animation: pulseGlow 6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes pulseGlow { 0%, 100% { opacity: 0.28; } 50% { opacity: 0.5; } }
+@keyframes floatSlow { 0% { transform: translateY(0); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0); } }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
 
 .container {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0 2rem;
-  width: 100%;
+  position: relative;
 }
 
 .hero-grid {
   display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
-  gap: 60px; 
+  grid-template-columns: repeat(auto-fit, minmax(min(460px, 100%), 1fr));
+  gap: clamp(32px, 5vw, 60px);
   align-items: center;
 }
 
 .badge {
   display: inline-block;
-  padding: 6px 14px;
-  background: rgba(166, 210, 235, 0.1);
-  border: 1px solid rgba(166, 210, 235, 0.2);
+  padding: 7px 16px;
+  background: #161616;
+  border: 1px solid rgba(28,79,214,0.4);
   border-radius: 6px;
-  font-size: 0.75rem;
-  font-weight: 800;
-  letter-spacing: 1px;
-  margin-bottom: 1.5rem;
-  color: #a6d2eb;
+  font-family: 'Oswald', sans-serif;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 1.4px;
+  color: #4a7cf0;
+  text-transform: uppercase;
+  margin-bottom: 26px;
+  animation: fadeUp 0.7s ease both;
+  animation-delay: 0.05s;
 }
 
 .main-title {
-  font-family: 'Archivo Black', sans-serif;
-  font-size: clamp(2.5rem, 4.5vw, 5.5rem);
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(2.4rem, 6.5vw, 5.2rem);
   line-height: 0.95;
-  margin-bottom: 1.8rem;
   text-transform: uppercase;
-  letter-spacing: -2px;
+  letter-spacing: -1px;
+  margin: 0 0 26px;
+  animation: fadeUp 0.7s ease both;
+  animation-delay: 0.15s;
 }
 
-.text-accent {
-  color: #a6d2eb;
-  background: linear-gradient(45deg, #a6d2eb, #ffffff);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
+.text-accent { color: #3a6bd6; }
 
 .description {
-  font-size: clamp(1rem, 1.1vw, 1.2rem);
+  font-size: clamp(1rem, 1.6vw, 1.15rem);
   line-height: 1.6;
-  color: rgba(255, 255, 255, 0.75);
-  max-width: 620px;
-  margin-bottom: 1.8rem;
+  color: rgba(245,245,244,0.62);
+  max-width: 560px;
+  margin: 0 0 24px;
+  animation: fadeUp 0.7s ease both;
+  animation-delay: 0.25s;
 }
 
 .pricing-info {
-  font-size: 0.95rem;
-  color: #a6d2eb;
-  font-weight: 700;
-  margin-bottom: 2.5rem;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.05);
   display: inline-block;
-  padding: 14px 20px;
+  font-family: 'Oswald', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #4a7cf0;
+  background: #121212;
+  border: 1px solid rgba(255,255,255,0.09);
+  padding: 13px 18px;
   border-radius: 8px;
-  max-width: 620px;
+  margin-bottom: 34px;
+  animation: fadeUp 0.7s ease both;
+  animation-delay: 0.35s;
 }
 
 .action-group {
   display: flex;
-  gap: 16px;
+  flex-wrap: wrap;
+  gap: 14px;
+  animation: fadeUp 0.7s ease both;
+  animation-delay: 0.45s;
 }
 
 .btn-main {
-  background: white;
-  color: #06090b;
-  padding: 16px 32px;
+  background: #1c4fd6;
+  color: #ffffff;
+  font-family: 'Oswald', sans-serif;
+  font-size: 14.5px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  padding: 17px 32px;
   border-radius: 8px;
-  font-weight: 800;
+  border: none;
+  cursor: pointer;
   display: flex;
   align-items: center;
   gap: 10px;
+  min-height: 52px;
   transition: all 0.25s ease;
-  font-size: 0.95rem;
-  border: none;
-  cursor: pointer;
 }
 
 .btn-main:hover {
-  background: #a6d2eb;
+  background: #123ba0;
   transform: translateY(-3px);
-  box-shadow: 0 10px 20px rgba(166, 210, 235, 0.2);
+  box-shadow: 0 10px 24px rgba(28,79,214,0.35);
 }
 
 .btn-staff {
-  padding: 16px 32px;
+  background: transparent;
+  color: #f5f5f4;
+  font-family: 'Oswald', sans-serif;
+  font-size: 14.5px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  padding: 17px 32px;
   border-radius: 8px;
-  font-weight: 800;
-  background: #11181c;
-  color: white;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  font-size: 0.95rem;
+  border: 1px solid rgba(255,255,255,0.12);
   cursor: pointer;
+  min-height: 52px;
   transition: all 0.25s ease;
 }
 
-.btn-staff:hover {
-  background: rgba(255, 255, 255, 0.08);
-  transform: translateY(-3px);
-}
+.btn-staff:hover { background: rgba(255,255,255,0.06); }
 
 .content-right {
   display: flex;
-  justify-content: flex-end;
+  flex-direction: column;
+  align-items: center;
   width: 100%;
+  animation: fadeUp 0.8s ease both;
+  animation-delay: 0.3s;
 }
 
 .preview-box {
@@ -226,94 +241,74 @@ const currentView = ref<'web' | 'mobile'>('web');
   flex-direction: column;
   align-items: center;
   width: 100%;
-  max-width: 650px;
 }
 
 .view-selector {
   display: flex;
-  gap: 8px;
-  background: rgba(17, 24, 28, 0.8);
+  gap: 6px;
+  background: rgba(20,20,20,0.85);
   padding: 6px;
   border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  margin-bottom: 24px;
-  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.06);
+  margin-bottom: 22px;
 }
 
 .tab-btn {
   background: transparent;
+  color: rgba(245,245,244,0.65);
   border: none;
-  color: rgba(255, 255, 255, 0.6);
   padding: 10px 18px;
-  font-size: 0.85rem;
+  font-family: 'Oswald', sans-serif;
+  font-size: 13px;
   font-weight: 700;
   border-radius: 8px;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.25s ease;
 }
 
-.tab-btn:hover {
-  color: white;
-}
-
-.tab-btn.active {
-  background: #a6d2eb;
-  color: #06090b;
-  box-shadow: 0 4px 12px rgba(166, 210, 235, 0.2);
-}
+.tab-btn.active { background: #1c4fd6; color: #ffffff; }
 
 .display-area {
   width: 100%;
-  height: 540px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .mockup-container {
-  background: #090d11;
+  background: #111111;
+  border: 1px solid rgba(255,255,255,0.09);
   border-radius: 16px;
-  width: 100%;
-  height: 480px;
-  box-shadow: 0 40px 80px rgba(0,0,0,0.6);
   overflow: hidden;
-  border: 1px solid rgba(255,255,255,0.05);
-  display: flex;
-  flex-direction: column;
+  box-shadow: 0 30px 70px rgba(0,0,0,0.55);
+  width: 100%;
+  max-width: 600px;
+  animation: floatSlow 6.5s ease-in-out infinite;
 }
 
 .mockup-header {
-  background: rgba(0,0,0,0.3);
-  padding: 14px 20px;
+  background: #1a1a1a;
+  padding: 12px 18px;
   display: flex;
   align-items: center;
-  gap: 12px;
-  border-bottom: 1px solid rgba(255,255,255,0.03);
+  gap: 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
 }
 
 .dots { display: flex; gap: 6px; }
-.dots span { width: 8px; height: 8px; border-radius: 50%; }
+.dots span { width: 9px; height: 9px; border-radius: 50%; }
 .dot-red { background: #ff5f56; }
 .dot-amber { background: #ffbd2e; }
 .dot-green { background: #27c93f; }
 
 .mockup-url {
-  font-size: 11px;
-  color: rgba(255,255,255,0.3);
-  background: rgba(0,0,0,0.3);
-  padding: 4px 12px;
-  border-radius: 4px;
   flex: 1;
+  text-align: center;
+  font-size: 11px;
+  color: rgba(245,245,244,0.4);
 }
 
-.mockup-body {
-  flex: 1;
-  background: #090d11;
-  overflow: hidden;
-}
+.mockup-body { height: 380px; overflow: hidden; }
 
 .web-preview-img {
   width: 100%;
@@ -323,16 +318,15 @@ const currentView = ref<'web' | 'mobile'>('web');
 }
 
 .phone-container {
-  position: relative;
-  width: 255px;
-  height: 510px;
-  background: #090d11;
-  border-radius: 42px;
+  width: 230px;
+  height: 460px;
+  background: #111111;
+  border-radius: 38px;
+  border: 4px solid #232323;
   padding: 10px;
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8), 0 0 50px rgba(166, 210, 235, 0.15);
-  border: 4px solid #232e35;
-  outline: 1px solid rgba(255, 255, 255, 0.1);
-  animation: floatingPhone 7s ease-in-out infinite;
+  position: relative;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+  animation: floatSlow 6.5s ease-in-out infinite;
 }
 
 .phone-island {
@@ -347,33 +341,12 @@ const currentView = ref<'web' | 'mobile'>('web');
   z-index: 10;
 }
 
-.phone-volume-btn {
-  position: absolute;
-  left: -7px;
-  top: 90px;
-  width: 3px;
-  height: 35px;
-  background: #232e35;
-  border-radius: 3px 0 0 3px;
-}
-
-.phone-power-btn {
-  position: absolute;
-  right: -7px;
-  top: 110px;
-  width: 3px;
-  height: 45px;
-  background: #232e35;
-  border-radius: 0 3px 3px 0;
-}
-
 .phone-screen {
   width: 100%;
   height: 100%;
-  border-radius: 34px;
+  border-radius: 28px;
   overflow: hidden;
   background: #111a1e;
-  border: 1px solid rgba(0, 0, 0, 0.5);
 }
 
 .phone-preview-img {
@@ -383,57 +356,16 @@ const currentView = ref<'web' | 'mobile'>('web');
   object-position: top;
 }
 
-@keyframes floatingPhone {
-  0% {
-    transform: translateY(0px) rotate3d(1, 1, 1, 0deg);
-  }
-  25% {
-    transform: translateY(-8px) rotate3d(1, 2, 1, 4deg);
-  }
-  50% {
-    transform: translateY(4px) rotate3d(-1, 1, 1, -2deg);
-  }
-  75% {
-    transform: translateY(-6px) rotate3d(1, -1, 1, 3deg);
-  }
-  100% {
-    transform: translateY(0px) rotate3d(1, 1, 1, 0deg);
-  }
-}
-
-.fade-scale-enter-active,
-.fade-scale-leave-active {
-  transition: all 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.fade-scale-enter-from {
-  opacity: 0;
-  transform: scale(0.9) translateY(20px);
-}
-
-.fade-scale-leave-to {
-  opacity: 0;
-  transform: scale(0.95) translateY(-20px);
-}
+.fade-scale-enter-active, .fade-scale-leave-active { transition: all 0.4s ease; }
+.fade-scale-enter-from { opacity: 0; transform: scale(0.94) translateY(14px); }
+.fade-scale-leave-to { opacity: 0; transform: scale(0.96) translateY(-14px); }
 
 @media (max-width: 1200px) {
-  .hero-wrapper { padding: 120px 0 60px 0; }
-  .hero-grid { 
-    grid-template-columns: 1fr; 
-    text-align: center;
-    gap: 50px;
-  }
-  .content-left {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
+  .hero-grid { text-align: center; }
+  .content-left { display: flex; flex-direction: column; align-items: center; }
   .description { text-align: center; }
-  .content-right { justify-content: center; }
   .action-group { width: 100%; max-width: 340px; }
-  .btn-main, .btn-staff { width: 100%; }  
-  .display-area { height: 540px; }
-  .mockup-container { height: 420px; }
+  .btn-main, .btn-staff { width: 100%; justify-content: center; }
 }
 
 @media (max-width: 480px) {
