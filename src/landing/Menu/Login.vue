@@ -53,7 +53,7 @@ const handleSubmit = () => {
     <header class="top-bar">
       <router-link :to="{ name: 'home' }" class="top-brand">
         <Logo />
-        <span class="logo-text-sm">FitManage Pro</span>
+        <span class="logo-text">FITMANAGE <span class="text-accent">PRO</span></span>
       </router-link>
     </header>
 
@@ -175,6 +175,19 @@ const handleSubmit = () => {
   font-size: 18px;
   letter-spacing: 0.3px;
   color: #f5f5f4;
+}
+
+.logo-text {
+  font-family: 'Anton', sans-serif;
+  font-size: 19px;
+  letter-spacing: 0.3px;
+  line-height: 1;
+  white-space: nowrap;
+  color: #f5f5f4;
+}
+
+.text-accent {
+  color: #1c4fd6;
 }
 
 .login-container {

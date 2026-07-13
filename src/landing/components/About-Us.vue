@@ -63,7 +63,7 @@ const currentView = ref<'web' | 'mobile'>('web');
                 <div v-else key="mobile" class="phone-container">
                   <div class="phone-island"></div>
                   <div class="phone-screen">
-                    <img src="@/assets/Contenido/imagen2.png" alt="App Móvil Preview" class="phone-preview-img" />
+                    <img src="@/assets/fondo.jpg" alt="App Móvil Preview" class="phone-preview-img" />
                   </div>
                 </div>
 
