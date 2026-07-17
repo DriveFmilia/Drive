@@ -1,12 +1,14 @@
-<script setup lang="ts">
-import HeadingAdmin from '../HeadingAdmin.vue';
-
-</script>
-
 <template>
-    <HeadingAdmin />
+  <HeadingAdmin>
+  <main class="main-content">
 
-
+  </main>
+  </HeadingAdmin>    
 </template>
 
+<script setup>
+import { ref } from 'vue';
+import HeadingAdmin from '../HeadingAdmin.vue';
 
+
+</script>

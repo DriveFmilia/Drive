@@ -1,38 +1,7 @@
 <template>
-  <div class="dashboard-wrapper" :class="{ 'sidebar-open': isSidebarOpen }">
-    <transition name="fade">
-      <div v-if="isSidebarOpen" class="sidebar-overlay" @click="toggleSidebar"></div>
-    </transition>
-
-    <aside class="sidebar-container">
-      <Sidebar />
-    </aside>
+  <HeadingAdmin>
 
     <div class="main-layout">
-      <nav class="top-nav">
-        <div class="nav-left">
-          <button class="toggle-btn" @click="toggleSidebar" aria-label="Abrir menú" title="Abrir menú">
-            <svg viewBox="0 0 24 24" class="svg-icon">
-              <path d="M4 4h4v4H4V4zm6 0h4v4h-4V4zm6 0h4v4h-4V4zM4 10h4v4H4v-4zm6 0h4v4h-4v-4zm6 0h4v4h-4v-4zM4 16h4v4H4v-4zm6 0h4v4h-4v-4zm6 0h4v4h-4v-4z"/>
-            </svg>
-          </button>
-
-          <button class="nav-action-btn glass-effect" @click="activeModal = 'website'" title="Ir al Sitio Web">
-            <svg viewBox="0 0 24 24" class="svg-icon"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-          </button>
-        </div>
-
-        <div class="nav-right">
-          <button class="nav-action-btn glass-effect" @click="activeModal = 'qr'" title="QR del Gimnasio">
-            <svg viewBox="0 0 24 24" class="svg-icon"><path d="M3 4.5V8h2V4.5A1.5 1.5 0 0 1 6.5 3H10V1H6.5A3.5 3.5 0 0 0 3 4.5zm14.5-3.5H14v2h3.5A1.5 1.5 0 0 1 19 4.5V8h2V4.5A3.5 3.5 0 0 0 17.5 1zM3 17.5V14h2v3.5A1.5 1.5 0 0 0 6.5 19H10v2H6.5A3.5 3.5 0 0 1 3 17.5zm18 0V14h-2v3.5a1.5 1.5 0 0 1-1.5 1.5H14v2h3.5a3.5 3.5 0 0 1 3.5-3.5zM7 7h4v4H7V7zm5-1h4v4h-4V6zM7 13h4v4H7v-4zm5 0h1v1h-1v-1zm1 1h1v1h-1v-1zm-1 1h1v1h-1v-1zm3-2h1v1h-1v-1zm-1 1h1v1h-1v-1zm1 1h1v1h-1v-1z"/></svg>
-          </button>
-
-          <button class="nav-action-btn glass-effect notification" @click="isNotificationsOpen = true" title="Notificaciones">
-            <span class="dot"></span>
-            <svg viewBox="0 0 24 24" class="svg-icon"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
-          </button>
-        </div>
-      </nav>
 
       <main class="dashboard-content">
         <div class="gym-brand-card">
@@ -54,17 +23,16 @@
         <div class="action-buttons-container">
           <button class="action-card primary" @click="activeModal = 'add-schedule'">
             <div class="action-icon">
-               <svg viewBox="0 0 24 24" class="svg-btn"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg>
+              <svg viewBox="0 0 24 24" class="svg-btn"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg>
             </div>
             <div class="card-info">
               <span class="main-text">Añadir Horario</span>
               <span class="sub-text">Gestión de turnos</span>
             </div>
           </button>
-
           <button class="action-card secondary" @click="activeModal = 'view-schedule'">
             <div class="action-icon">
-               <svg viewBox="0 0 24 24" class="svg-btn"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+              <svg viewBox="0 0 24 24" class="svg-btn"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
             </div>
             <div class="card-info">
               <span class="main-text">Ver Horario</span>
@@ -83,20 +51,19 @@
       <transition name="pop">
         <div v-if="activeModal" class="modal-wrapper" @click.self="closeModal">
           
+          <AddScheduleModal v-if="activeModal === 'add-schedule'" @close="closeModal" />
+          <ViewScheduleModal v-if="activeModal === 'view-schedule'" @close="closeModal" />
+
           <div v-if="activeModal === 'facial' || activeModal === 'scanner'" class="camera-panel glass-effect">
             <div class="panel-header">
               <h3>{{ activeModal === 'facial' ? 'Escaneo Facial' : 'Escaneando QR' }}</h3>
               <button class="close-panel" @click="closeModal">&times;</button>
             </div>
-            
             <div class="camera-container">
               <video ref="videoPlayer" autoplay playsinline class="video-feed"></video>
               <div v-if="activeModal === 'facial'" class="face-overlay"></div>
-              <div v-if="activeModal === 'scanner'" class="qr-overlay">
-                <div class="scanner-line"></div>
-              </div>
+              <div v-if="activeModal === 'scanner'" class="qr-overlay"><div class="scanner-line"></div></div>
             </div>
-
             <div class="panel-footer">
               <p v-if="activeModal === 'facial'">Coloca tu rostro dentro del círculo</p>
               <p v-else>Centra el código QR en el recuadro</p>
@@ -132,84 +99,21 @@
               <button class="action-btn-full">Configurar landing page</button>
             </div>
           </div>
-
-          <div v-if="activeModal === 'add-schedule'" class="form-panel glass-effect">
-            <div class="panel-header">
-              <h2 class="form-title">Nueva Actividad</h2>
-              <button class="close-x" @click="closeModal">&times;</button>
-            </div>
-            <div class="form-body">
-              <div class="input-group">
-                <label for="dayOfWeek">Día de la Semana</label>
-                <select id="dayOfWeek" class="custom-select">
-                  <option>Seleccionar día...</option>
-                  <option>Lunes</option>
-                  <option>Martes</option>
-                  <option>Miércoles</option>
-                  <option>Jueves</option>
-                  <option>Viernes</option>
-                  <option>Sábado</option>
-                  <option>Domingo</option>
-                </select>
-              </div>
-              <div class="input-group">
-                <label for="activityName">Nombre de Actividad</label>
-                <input id="activityName" type="text" placeholder="Ej. Crossfit" class="custom-input">
-              </div>
-              <div class="time-row">
-                <div class="input-group">
-                  <label>Inicio</label>
-                  <div class="time-box">8:00 AM</div>
-                </div>
-                <div class="input-group">
-                  <label>Fin</label>
-                  <div class="time-box">9:00 AM</div>
-                </div>
-              </div>
-            </div>
-            <div class="panel-footer-btns">
-              <button class="btn-cancel" @click="closeModal">CANCELAR</button>
-              <button class="btn-save">GUARDAR</button>
-            </div>
-          </div>
-
-          <div v-if="activeModal === 'view-schedule'" class="table-panel glass-effect">
-            <div class="panel-header">
-              <h3>Horario Semanal</h3>
-              <button class="close-x" @click="closeModal">&times;</button>
-            </div>
-            <div class="table-container">
-              <table class="schedule-table">
-                <thead>
-                  <tr>
-                    <th>Lunes</th>
-                    <th>Martes</th>
-                    <th>Miércoles</th>
-                    <th>Jueves</th>
-                    <th>Viernes</th>
-                    <th>Sábado</th>
-                    <th>Domingo</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="i in 5" :key="i">
-                    <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-
         </div>
       </transition>
     </div>
-  </div>
+  </HeadingAdmin>
 </template>
+
 
 <script setup>
 import { ref, onBeforeUnmount } from 'vue';
 import Sidebar from '../../components/Admin/Sidebar.vue';
 import NotificationsPanel from './Notifications/NotificationsPanel.vue';
+import AddScheduleModal from '../Modals/AddScheduleModal.vue';
+import ViewScheduleModal from '../Modals/ViewScheduleModal.vue';
+import HeadingAdmin from './HeadingAdmin.vue';
+
 
 const isSidebarOpen = ref(false);
 const isNotificationsOpen = ref(false);

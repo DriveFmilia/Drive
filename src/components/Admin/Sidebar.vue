@@ -159,7 +159,6 @@ const toggleGroup = (section: string) => {
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
-/* Variables de Color (Inspiradas en tus capturas) */
 :origin {
   --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
   --sidebar-bg: rgba(15, 23, 42, 0.45);
@@ -178,10 +177,9 @@ const toggleGroup = (section: string) => {
   color: #f8fafc;
 }
 
-/* --- SIDEBAR (Efecto Cristal Esmerilado) --- */
 .sidebar {
   width: 280px;
-  background: rgba(13, 20, 35, 0.65);
+  background: #0a0a0a;;
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   height: 100vh;

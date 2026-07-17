@@ -1,18 +1,18 @@
 <template>
   <div class="recovery-page">
+    <div class="glow"></div>
+
     <header class="top-bar">
       <router-link :to="{ name: 'home' }" class="top-brand">
-        <logo />
-        <span class="logo-text-sm">FitManage Pro</span>
+        <Logo />
+        <span class="logo-text">FITMANAGE <span class="text-accent">PRO</span></span>
       </router-link>
     </header>
 
     <main class="recovery-container">
       <div class="recovery-card">
         <div class="card-header">
-          <h1 class="title">
-            Recuperar <span class="highlight-text">Acceso</span>
-          </h1>
+          <h1 class="title">RECUPERAR <span class="highlight-text">ACCESO</span></h1>
           <p class="subtitle">Ingresa tus datos para verificar tu identidad</p>
         </div>
 
@@ -38,7 +38,8 @@
                 id="birthDate"
                 type="date" 
                 ref="dateInput"
-                v-model="birthDate" 
+                v-model="birthDate"
+                class="date-input-with-icon"
                 required 
               />
               <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
@@ -47,12 +48,10 @@
 
           <button type="submit" class="btn-primary">
             Mandar instrucciones
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
           </button>
 
-          <div class="divider">
-            <span>ó</span>
-          </div>
+          <div class="divider"><span>O TAMBIÉN</span></div>
 
           <router-link :to="{ name: 'login' }" class="btn-secondary">
             Inicia Sesión
@@ -83,229 +82,113 @@ const handleRecovery = () => {
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&family=Oswald:wght@400;700&display=swap');
 
 .recovery-page {
   min-height: 100vh;
-  background: linear-gradient(180deg, #06090bd2 0%, #b4e9ff8e 50%, #1a262c65 100%);
+  background: #0a0a0a;
+  color: #f5f5f4;
   font-family: 'Inter', sans-serif;
   display: flex;
   flex-direction: column;
+  position: relative;
+  overflow: hidden;
 }
 
-.top-bar {
-  width: 100%;
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 24px;
-  box-sizing: border-box;
+.glow {
+  position: absolute;
+  top: -160px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 720px;
+  height: 720px;
+  max-width: 160vw;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(28,79,214,0.32) 0%, rgba(28,79,214,0) 70%);
+  filter: blur(10px);
+  animation: pulseGlow 6s ease-in-out infinite;
+  pointer-events: none;
 }
 
-.top-brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  text-decoration: none;
-}
+@keyframes pulseGlow { 0%, 100% { opacity: 0.28; } 50% { opacity: 0.5; } }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
 
-.logo-text-sm {
-  font-family: 'Archivo Black', sans-serif;
-  font-size: 1.1rem;
-  color: #ffffff;
-  letter-spacing: -0.5px;
-}
+.top-bar { width: 100%; max-width: 1400px; margin: 0 auto; padding: 24px clamp(20px, 4vw, 60px); box-sizing: border-box; }
+.top-brand { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; }
+.logo-text { font-family: 'Anton', sans-serif; font-size: 19px; letter-spacing: 0.3px; color: #f5f5f4; }
+.text-accent { color: #1c4fd6; }
 
-.recovery-container {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 24px 16px;
-}
-
+.recovery-container { flex: 1; display: flex; align-items: center; justify-content: center; padding: 24px 16px 60px; }
 .recovery-card {
-  background: rgba(15, 23, 42, 0.45);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
   width: 100%;
-  max-width: 440px; 
-  padding: 50px;
+  max-width: 440px;
+  background: rgba(18, 18, 18, 0.7);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.09);
   border-radius: 24px;
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.1);
-  box-sizing: border-box;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: clamp(32px, 5vw, 50px);
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.55);
+  animation: fadeUp 0.6s ease both;
 }
 
-.card-header {
-  text-align: center;
-  margin-bottom: 35px;
-}
+.card-header { text-align: center; margin-bottom: 32px; }
+.title { font-family: 'Anton', sans-serif; font-size: clamp(1.9rem, 5vw, 2.6rem); letter-spacing: -1px; text-transform: uppercase; margin: 0 0 8px; }
+.highlight-text { color: #1c4fd6; }
+.subtitle { font-size: 14px; color: rgba(245, 245, 244, 0.55); margin: 0; }
 
-.title {
-  font-family: 'Archivo Black', sans-serif;
-  font-size: 2.5rem;
-  color: #ffffff;
-  letter-spacing: -1.5px;
-  line-height: 1.1;
-  margin: 0 0 8px 0;
-}
+.recovery-form { display: flex; flex-direction: column; gap: 22px; }
+.input-group { display: flex; flex-direction: column; gap: 8px; }
+label { font-family: 'Oswald', sans-serif; font-size: 12.5px; font-weight: 700; color: #f5f5f4; }
 
-.highlight-text { 
-  color: #3b82f6; 
-}
-
-.subtitle { 
-  font-weight: 400; 
-  font-size: 0.95rem; 
-  color: #e2e8f0;
-  margin: 0;
-}
-
-.recovery-form {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-.input-group { 
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-label { 
-  font-weight: 700; 
-  font-size: 0.85rem; 
-  color: #ffffff; 
-}
-
-.input-wrapper { 
-  position: relative; 
-}
+.input-wrapper { position: relative; }
 
 input {
   width: 100%;
-  padding: 14px 48px 14px 16px;
-  background: rgba(15, 23, 42, 0.6);
-  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  padding: 14px 16px; 
+  background: #141414;
+  border: 1.5px solid rgba(255, 255, 255, 0.12);
   border-radius: 12px;
-  color: #ffffff;
-  font-weight: 600;
-  font-size: 0.95rem;
-  box-sizing: border-box;
-  transition: all 0.2s ease;
+  color: #f5f5f4;
+  font-size: 14.5px;
+  min-height: 48px;
+  transition: border-color 0.2s ease;
 }
 
-input:focus {
-  outline: none;
-  background: rgba(15, 23, 42, 0.8);
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.3);
+
+#email {
+  padding-right: 46px; 
 }
 
-input::placeholder {
-  color: rgba(255, 255, 255, 0.5);
+
+#birthDate {
+  padding-right: 46px;
 }
+
 
 input[type="date"]::-webkit-calendar-picker-indicator {
-  filter: invert(1);
-  opacity: 0.6;
+  opacity: 0;
   cursor: pointer;
 }
 
-.input-icon {
-  position: absolute;
-  right: 16px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 18px;
-  height: 18px;
-  color: #94a3b8;
-  pointer-events: none;
-  transition: color 0.2s ease;
-}
-
-input:focus ~ .input-icon {
-  color: #3b82f6;
-}
+input:focus { border-color: #1c4fd6; box-shadow: 0 0 0 4px rgba(28, 79, 214, 0.25); outline: none; }
+.input-icon { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); width: 18px; color: rgba(245, 245, 244, 0.35); pointer-events: none; }
 
 .btn-primary {
-  width: 100%;
-  padding: 16px;
-  background: #102f72;
-  color: #ffffff;
-  border: none;
-  border-radius: 12px;
-  font-family: 'Archivo Black', sans-serif;
-  font-size: 0.95rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  transition: all 0.2s ease;
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  width: 100%; padding: 16px; background: #1c4fd6; color: #ffffff; border: none; border-radius: 12px;
+  font-family: 'Oswald', sans-serif; font-weight: 700; text-transform: uppercase; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 9px; min-height: 52px;
+  transition: all 0.25s ease;
 }
+.btn-primary:hover { background: #123ba0; transform: translateY(-2px); }
 
-.btn-primary:hover {
-  background: #2563eb;
-  transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(59, 130, 246, 0.4);
-}
-
-.btn-primary:active {
-  transform: translateY(1px);
-}
-
-.divider { 
-  margin: 20px 0; 
-  border-top: 1px solid rgba(255, 255, 255, 0.15); 
-  position: relative; 
-  text-align: center;
-}
-
-.divider span { 
-  position: absolute; 
-  top: -10px; 
-  left: 50%; 
-  transform: translateX(-50%); 
-  background: #1e293b;
-  padding: 2px 14px; 
-  font-weight: 700; 
-  font-size: 0.8rem;
-  color: #cbd5e1; 
-  border-radius: 20px;
-}
+.divider { position: relative; text-align: center; border-top: 1px solid rgba(255, 255, 255, 0.1); margin-top: 4px; }
+.divider span { position: relative; top: -10px; background: #121212; padding: 2px 14px; font-family: 'Oswald', sans-serif; font-size: 11.5px; color: rgba(245, 245, 244, 0.5); }
 
 .btn-secondary {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  padding: 14px;
-  background: rgba(255, 255, 255, 0.05);
-  color: #ffffff;
-  text-decoration: none;
-  border: 1.5px solid rgba(255, 255, 255, 0.25);
-  border-radius: 12px;
-  font-family: 'Archivo Black', sans-serif;
-  font-size: 0.95rem;
-  box-sizing: border-box;
-  transition: all 0.2s ease;
+  display: flex; align-items: center; justify-content: center; width: 100%; padding: 14px;
+  background: rgba(255, 255, 255, 0.04); color: #f5f5f4; text-decoration: none;
+  border: 1.5px solid rgba(255, 255, 255, 0.14); border-radius: 12px; font-family: 'Oswald', sans-serif;
+  text-transform: uppercase; min-height: 48px; transition: all 0.2s ease;
 }
-
-.btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: #3b82f6;
-  color: #3b82f6;
-}
-
-@media (max-width: 480px) {
-  .recovery-card {
-    padding: 35px 25px;
-  }
-  .title { 
-    font-size: 2.2rem; 
-  }
-}
+.btn-secondary:hover { border-color: #1c4fd6; color: #5b8bf0; }
 </style>
