@@ -165,6 +165,28 @@
 .avatar-small { width: 40px; height: 40px; background: #333; border-radius: 50%; }
 .status-badge { background: rgba(78, 71, 6, 0.4); color: #d3bb34; padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; border: 1px solid #3e4e06; }
 .text-bold { font-weight: 600; color: #fff; }
+
+.btn-bulk, 
+.icon-btn, 
+.modal-content button {
+  transition: transform 0.2s ease, background 0.3s, border 0.3s;
+}
+
+@media (hover: hover) {
+  .btn-bulk:hover, 
+  .icon-btn:hover, 
+  .modal-content button:hover {
+    transform: scale(1.05);
+    cursor: pointer;
+  }
+}
+.btn-bulk:active, 
+.icon-btn:active, 
+.modal-content button:active {
+  transform: scale(0.95);
+}
+
+
 </style>
 
 <script setup>

@@ -148,6 +148,35 @@ select.custom-select:focus { outline: none; border-color: #3b82f6;}
 @media (max-width: 1200px) { .main-content { gap: 100px; } }
 @media (max-width: 992px) { .hero-image-wrapper { display: none; } .main-content { gap: 40px; padding: 20px; } .main-title { white-space: normal; text-align: center; font-size: 2.5rem; } }
 @media (max-width: 480px) { .form-grid { grid-template-columns: 1fr; } }
+
+.btn-primary, 
+.btn-toggle-small, 
+.icon-btn, 
+.icon-svg {
+  transition: transform 0.2s ease, background 0.3s, border 0.3s;
+}
+
+@media (hover: hover) {
+  .btn-primary:hover, 
+  .btn-toggle-small:hover, 
+  .icon-btn:hover, 
+  .icon-svg:hover {
+    transform: scale(1.05);
+    cursor: pointer;
+  }
+}
+
+.btn-primary:active, 
+.btn-toggle-small:active, 
+.icon-svg:active {
+  transform: scale(0.95);
+}
+
+.btn-primary:disabled {
+  transform: none !important;
+}
+
+
 </style>
 
 <script setup>
