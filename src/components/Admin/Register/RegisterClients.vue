@@ -93,7 +93,7 @@
 .login-card { background: rgba(18, 18, 18, 0.7); backdrop-filter: blur(20px); padding: 30px; border-radius: 24px; border: 1px solid rgba(255, 255, 255, 0.12); width: 100%; max-width: 420px; color: white; }
 h3 { font-family: 'Oswald', sans-serif; font-size: 13px; color: #5b8bf0; text-transform: uppercase; letter-spacing: 0.6px; }
 .input-group { display: flex; flex-direction: column; gap: 8px; }
-.input-group label { font-family: 'Oswald', sans-serif; font-size: 14px; color: #fff; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 500; }
+.input-group label { font-family: 'Oswald', sans-serif; font-size: 14px; color: #fff;  letter-spacing: 0.5px; font-weight: 500; }
 input {width: 100%; padding: 10px 16px; background: #141414; border: 1.5px solid rgba(255, 255, 255, 0.12); border-radius: 8px; color: #f5f5f4;}
 .btn-primary { width: 100%; padding: 16px; background: #1c4fd6; color: white; border: none; border-radius: 12px; font-family: 'Oswald', sans-serif; font-weight: 700; cursor: pointer; }
 .sidebar-container { width: 280px; height: 100vh; position: fixed; top: 0; left: 0; background: #0f172a; transform: translateX(-100%); transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); z-index: 3000; }

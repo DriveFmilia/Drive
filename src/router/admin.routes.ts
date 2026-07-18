@@ -30,6 +30,22 @@ export const adminRoutes = [
         name: 'view-staff',
         component: () => import('@/components/Admin/Views/ViewStaff.vue')
       },
+
+      {
+        path: 'editar-usuario/:id',
+        name: 'edit-user',
+        component: () => import('@/components/Admin/Edits/EditUser.vue')
+      },
+      {
+        path: 'editar-staff/:id',
+        name: 'edit-staff',
+        component: () => import('@/components/Admin/Edits/EditStaff.vue')
+      },
+      {
+        path: 'pay/:id',
+        name: 'pay',
+        component: () => import('@/components/Admin/Componets/Payments.vue')
+      },
       // Pagos y Configuración
       {
         path: 'payments',
@@ -72,7 +88,12 @@ export const adminRoutes = [
         path: 'settings',
         name: 'admin-settings',
         component: () => import('@/components/Admin/Settings.vue')
-      }
+      },
+      {
+        path: 'profile',
+        name: 'profile',
+        component: () => import('@/components/Admin/Componets/Profile.vue')
+      },
     ]
   }
 ]
