@@ -69,20 +69,6 @@
           </div>
         </div>
       </div>
-        <!-- Modal QR -->
-      <ModalComponent :isOpen="showQR" @close="showQR = false">
-        <h2 style="color:#fff; margin-bottom: 20px;">Código QR de Acceso</h2>
-        
-        <div class="qr-wrapper">
-            <img src="../../../assets/qr.png" alt="QR" class="qr-image" />
-        </div>
-        
-        <p style="color:#aaa; font-size:0.9rem; margin: 20px 0;">
-            Muestra este código en la entrada para que los socios registren su asistencia.
-        </p>
-        
-        <button class="btn-bulk" style="width:100%; display: flex; justify-content: center; align-items: center;">Descargar para Imprimir</button>
-      </ModalComponent>
       <!-- Modal Eliminar -->
       <ModalComponent :isOpen="showDelete" @close="showDelete = false">
         <h2 style="color:#fff">¿Eliminar usuario?</h2>
