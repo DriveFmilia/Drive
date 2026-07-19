@@ -3,7 +3,7 @@
     <main class="main-content">
       <!-- Columna Izquierda -->
       <div class="profile-section">
-        <h1 class="main-title">Jose Luis <br> <span class="highlight">Ramires</span></h1>
+        <h1 class="main-title">Jesus Luis <br> <span class="highlight">Ramires</span></h1>
         <div class="avatar-circle">
           <svg viewBox="0 0 24 24" fill="white"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
         </div>
@@ -25,7 +25,8 @@
           </div>
 
           <div class="header-row">
-            <label>Estado de Cuenta</label>
+            
+            <div class="input-group2"><label>Estado de Cuenta</label></div>
             <button class="btn-promos">
               <svg viewBox="0 0 24 24" fill="currentColor" style="width: 16px;"><path d="M21.41 11.58l-9-9C12.05 2.22 11.55 2 11 2H4c-1.1 0-2 .9-2 2v7c0 .55.22 1.05.59 1.42l9 9c.36.36.86.58 1.41.58.55 0 1.05-.22 1.41-.59l7-7c.37-.36.59-.86.59-1.41 0-.55-.23-1.06-.59-1.42zM5.5 7C4.67 7 4 6.33 4 5.5S4.67 4 5.5 4 7 4.67 7 5.5 6.33 7 5.5 7z"/></svg>
               Promos
@@ -40,7 +41,7 @@
             </div>
           </div>
 
-          <label>Monto a Recibir</label>
+          <div class="input-group"><label>Monto a Recibir</label></div>
           <div class="input-with-symbol">
             <span class="symbol">$</span>
             <input type="number" v-model="montoRecibir" placeholder="0.00">
@@ -71,7 +72,7 @@ const isButtonDisabled = computed(() => !montoRecibir.value || montoRecibir.valu
 @import url('https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;700;800&family=Oswald:wght@400;700&display=swap');
 
 
-.main-content { display: flex; align-items: center; justify-content: center; gap: 200px; padding: 40px; min-height: 80vh; }
+.main-content { display: flex; align-items: center; justify-content: center; gap: 300px; padding: 40px; min-height: 80vh; }
 .profile-section { display: flex; flex-direction: column; align-items: center; text-align: center; }
 .main-title { font-family: 'Anton', sans-serif; font-size: 3.5rem; color: #fff; margin: 0 0 20px 0; line-height: 1.1; }
 .highlight { color: #3b82f6; }
@@ -95,7 +96,15 @@ const isButtonDisabled = computed(() => !montoRecibir.value || montoRecibir.valu
 .input-with-symbol .symbol { color: #fff; font-size: 1.2rem; font-weight: bold; margin-right: 8px; }
 .input-with-symbol input { background: transparent; border: none; padding: 15px 0; font-size: 1.2rem; color: #fff; width: 100%; outline: none; }
 .input-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 15px; }
-.input-group label { font-family: 'Oswald', sans-serif; color: #fff; text-transform: uppercase; font-size: 13px; }
+.input-group label { font-family: 'Oswald', sans-serif; color: #fff; font-size: 14px; }
+.input-group2 {  display: flex; flex-direction: column;  margin-bottom: 0px; }
+.input-group2 label { font-family: 'Oswald', sans-serif; color: #fff; font-size: 14px; }
+.header-row { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  margin-bottom: 10px; 
+}
 input:not(.input-with-symbol input) { background: #141414; border: 1px solid #333; border-radius: 8px; color: #fff; padding: 10px; font-family: 'Inter', sans-serif; outline: none; }
 .styled-box { background: #141414; border: 1px solid #333; border-radius: 8px; padding: 12px; display: flex; align-items: center; justify-content: space-between; color: #fff; margin-bottom: 20px; }
 .amount-val { font-size: 1.8rem; font-weight: 800; }
@@ -151,5 +160,9 @@ input:not(.input-with-symbol input) { background: #141414; border: 1px solid #33
   .right-column { width: 100%; }
   .search-bar-half { width: 100%; align-self: center; }
   .form-grid { grid-template-columns: 1fr; }
+  .form-grid .input-group,
+  .form-grid .input-group input {
+    width: 100%;
+  }
 }
 </style>

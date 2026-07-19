@@ -46,6 +46,11 @@ export const adminRoutes = [
         name: 'pay',
         component: () => import('@/components/Admin/Componets/Payments.vue')
       },
+      {
+        path: 'statistics/:id',
+        name: 'statistics',
+        component: () => import('@/components/Admin/Statistics/Statistics.vue')
+      },
       // Pagos y Configuración
       {
         path: 'payments',
