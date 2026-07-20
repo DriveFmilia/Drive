@@ -60,7 +60,7 @@ const handleSubmit = () => {
     <main class="login-container">
       <div class="login-card">
         <div class="card-header">
-          <h1 class="title">INICIA <span class="highlight-text">SESIÓN</span></h1>
+          <h1 class="title">INICIA <span class="highlight">SESIÓN</span></h1>
           <p class="subtitle">Gestiona tu gimnasio de forma inteligente</p>
         </div>
 
@@ -129,7 +129,7 @@ const handleSubmit = () => {
   position: relative;
   overflow: hidden;
 }
-
+.highlight { color: #3b82f6; }
 .glow {
   position: absolute;
   top: -160px;
@@ -144,6 +144,7 @@ const handleSubmit = () => {
   animation: pulseGlow 6s ease-in-out infinite;
   pointer-events: none;
 }
+.highlight { color: #3b82f6; }
 
 @keyframes pulseGlow { 0%, 100% { opacity: 0.28; } 50% { opacity: 0.5; } }
 @keyframes fadeUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
