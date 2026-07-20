@@ -1,5 +1,6 @@
 <template>
   <HeadingAdmin>
+    <NotificationSystem ref="toastRef" />
     <main class="main-content">
       <header class="header-section">
         <h1 class="main-title">Asistencia  <span class="highlight"> Semanal </span></h1>
@@ -15,7 +16,7 @@
                 <option value="Sabado">Sabado</option>
                 <option value="Domingo">Domingo</option>
             </select>
-            <button class="btn-bulk" @click="goToCharts">
+            <button class="btn-bulk"  @click="activeModal = 'asistencias'">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22">
                     <path d="M18 20V10M12 20V4M6 20v-6"/>
                 </svg>
@@ -95,6 +96,11 @@
       </ModalComponent>
 
     </main>
+    <transition name="pop">
+      <div v-if="activeModal === 'asistencias'" class="modal-wrapper" @click.self="activeModal = null">
+        <Asistencias @close="activeModal = null" />
+      </div>
+    </transition>  
   </HeadingAdmin>
 </template>
 
@@ -329,14 +335,28 @@
   transform: scale(0.95);
 }
 
+.modal-wrapper {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+}
 
 </style>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, reactive  } from 'vue';
 import { useRouter } from 'vue-router';
 import HeadingAdmin from '../HeadingAdmin.vue';
 import ModalComponent from '../../Modals/ModalComponent.vue';
+import Asistencias from '../Componets/Attendance.vue';
+import NotificationSystem from '../../Modals/NotificationSystem.vue'; 
+
+const activeModal = ref(null);
 
 const router = useRouter();
 const showQR = ref(false);

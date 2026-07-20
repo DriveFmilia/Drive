@@ -1,5 +1,6 @@
 <template>
   <HeadingAdmin>
+    <NotificationSystem ref="toastRef" />
     <main class="main-content">
       <header class="header-section">
         <h1 class="main-title">Ingresos</h1>
@@ -10,7 +11,7 @@
                 <option value="Mensual">Mensual</option>
                 <option value="Quincenal">Quincenal</option>
             </select>
-            <button class="btn-bulk" @click="goToIncomeDetails">
+            <button class="btn-bulk"  @click="activeModal = 'ganancias'">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22">
                     <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
                     <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
@@ -91,6 +92,11 @@
       </ModalComponent>
 
     </main>
+      <transition name="pop">
+      <div v-if="activeModal === 'ganancias'" class="modal-wrapper" @click.self="activeModal = null">
+        <Ganancias @close="activeModal = null" />
+      </div>
+    </transition>  
   </HeadingAdmin>
 </template>
 
@@ -99,7 +105,16 @@
 .header-section { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
 .main-title { font-family: 'Anton', sans-serif; font-size: 2.2rem; color: #fff; margin: 0; }
 
-
+.modal-wrapper {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+}
 .actions-bar { display: flex; gap: 15px; align-items: center; }
 .search-input, .status-select { background: #1a1a1a; border: 1px solid #444; padding: 10px 16px; border-radius: 8px; color: #fff; }
 
@@ -276,10 +291,14 @@
 </style>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, reactive  } from 'vue';
 import { useRouter } from 'vue-router';
 import HeadingAdmin from '../HeadingAdmin.vue';
 import ModalComponent from '../../Modals/ModalComponent.vue';
+import Ganancias from '../Componets/Earnings.vue';
+import NotificationSystem from '../../Modals/NotificationSystem.vue'; 
+
+const activeModal = ref(null);
 
 const router = useRouter();
 const showQR = ref(false);

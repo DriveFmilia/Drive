@@ -1,5 +1,6 @@
 <template>
   <HeadingAdmin>
+    <NotificationSystem ref="toastRef" />
     <main class="main-content">
       <!-- Columna Izquierda -->
       <div class="profile-section">
@@ -27,7 +28,7 @@
           <div class="header-row">
             
             <div class="input-group2"><label>Estado de Cuenta</label></div>
-            <button class="btn-promos" @click="goToPromos" type="button">
+            <button class="btn-promos"  type="button" @click="activeModal = 'promo'">
               <svg viewBox="0 0 24 24" fill="currentColor" style="width: 16px;">
                 <path d="M21.41 11.58l-9-9C12.05 2.22 11.55 2 11 2H4c-1.1 0-2 .9-2 2v7c0 .55.22 1.05.59 1.42l9 9c.36.36.86.58 1.41.58.55 0 1.05-.22 1.41-.59l7-7c.37-.36.59-.86.59-1.41 0-.55-.23-1.06-.59-1.42zM5.5 7C4.67 7 4 6.33 4 5.5S4.67 4 5.5 4 7 4.67 7 5.5 6.33 7 5.5 7z"/>
               </svg>
@@ -50,28 +51,61 @@
           </div>
           
           <div style="margin-top: 25px;">
-            <button class="btn-primary" :disabled="isButtonDisabled" :class="{ 'disabled': isButtonDisabled }">Confirmar Pago</button>
+            <button class="btn-primary" :disabled="isButtonDisabled" :class="{ 'disabled': isButtonDisabled }"@click="confirmPayment">Confirmar Pago</button>
           </div>
           
-          <button class="btn-secondary" style="margin-top: 10px;">
-            <svg viewBox="0 0 24 24" fill="currentColor" class="btn-icon"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+          <button class="btn-secondary" style="margin-top: 10px;" @click="downloadReceipt">
+            <svg viewBox="0 0 24 24" fill="currentColor" class="btn-icon">
+              <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+            </svg>
             Descargar Recibo
           </button>
         </div>
       </div>
     </main>
+          <transition name="pop">
+      <div v-if="activeModal === 'promo'" class="modal-wrapper" @click.self="activeModal = null">
+        <Promo @close="activeModal = null" />
+      </div>
+    </transition>  
   </HeadingAdmin>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, reactive } from 'vue';
 import { useRouter } from 'vue-router'; 
 import HeadingAdmin from '../HeadingAdmin.vue';
+
+import Promo from '../Componets/Promos.vue';
+import NotificationSystem from '../../Modals/NotificationSystem.vue'; 
+
+const router = useRouter();
+const activeModal = ref(null);
+const toastRef = ref(null);
 
 const montoRecibir = ref(null);
 const isButtonDisabled = computed(() => !montoRecibir.value || montoRecibir.value <= 100);
 
-const router = useRouter(); 
+const confirmPayment = () => {
+  if (isButtonDisabled.value) {
+    toastRef.value.notify('El monto debe ser mayor a 100', 'error');
+    return;
+  }
+  
+  // Aquí tu lógica de pago...
+  
+  toastRef.value.notify('Pago confirmado correctamente', 'success');
+};
+
+const downloadReceipt = () => {
+  // Lógica de generación o descarga del PDF
+  console.log("Generando recibo...");
+  
+  // Notificación de éxito
+  toastRef.value.notify('Descargando recibo...', 'success');
+  
+  // Aquí podrías añadir un setTimeout si necesitas simular un proceso
+};
 
 const goToPromos = () => {
   router.push('/admin/promos'); // Ajusta esta ruta a la que tengas en tu router/index.js
@@ -95,6 +129,26 @@ const goToPromos = () => {
 .login-card { background: rgba(18, 18, 18, 0.7); backdrop-filter: blur(20px); padding: 25px; border-radius: 24px; border: 1px solid rgba(255, 255, 255, 0.12); }
 .header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
 
+.modal-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.85); 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999; 
+  backdrop-filter: blur(5px);
+}
+
+.pop-enter-active, .pop-leave-active {
+  transition: opacity 0.3s ease;
+}
+.pop-enter-from, .pop-leave-to {
+  opacity: 0;
+}
 
 .btn-promos { background: transparent; border: 1px solid #3b82f6; color: #3b82f6; border-radius: 20px; padding: 4px 12px; display: flex; align-items: center; gap: 6px; font-family: 'Oswald', sans-serif; cursor: pointer; transition: 0.3s; }
 .btn-primary { width: 100%; padding: 14px; background: #1c4fd6; color: white; border: none; border-radius: 12px; font-family: 'Oswald', sans-serif; font-weight: 700; cursor: pointer; }

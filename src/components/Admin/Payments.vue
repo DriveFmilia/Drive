@@ -1,5 +1,7 @@
 <template>
   <HeadingAdmin>
+    
+    <NotificationSystem ref="toastRef" />
     <main class="main-content">
       <header class="header-section">
         <h1 class="main-title">Pagos</h1>
@@ -17,7 +19,7 @@
                 <option value="Pendiente">Pendiente</option>
                 <option value="Próximo a vencer">Próximo a vencer</option>
             </select>
-            <button class="btn-bulk" @click="goToEmail()">
+            <button class="btn-bulk"  @click="activeModal = 'enviomasivo'">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
                   <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
               </svg>
@@ -95,6 +97,11 @@
       </ModalComponent>
 
     </main>
+    <transition name="pop">
+      <div v-if="activeModal === 'enviomasivo'" class="modal-wrapper" @click.self="activeModal = null">
+        <CorreoMasivo @close="activeModal = null" />
+      </div>
+    </transition>  
   </HeadingAdmin>
 </template>
 
@@ -119,6 +126,16 @@
   white-space: nowrap;
 }
 
+.modal-wrapper {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+}
 .btn-bulk svg { color: #3b82f6; }
 .desktop-only { display: block; }
 .mobile-only { display: none; }
@@ -235,11 +252,15 @@
 </style>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, reactive  } from 'vue';
 import { useRouter } from 'vue-router';
 import HeadingAdmin from './HeadingAdmin.vue';
 import ModalComponent from './../Modals/ModalComponent.vue';
+import CorreoMasivo from './Componets/Bulk-Email.vue';
+import NotificationSystem from '../Modals/NotificationSystem.vue'; 
 
+const activeModal = ref(null);
+const toastRef = ref(null);
 
 const router = useRouter();
 const showQR = ref(false);
