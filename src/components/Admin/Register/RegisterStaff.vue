@@ -1,5 +1,6 @@
 <template>
   <HeadingAdmin>
+    <NotificationSystem ref="toastRef" />
     <main class="main-content">
       <div class="profile-card">
         <!-- Sección Izquierda: Título y Avatar -->
@@ -22,16 +23,46 @@
           <div class="login-card">
             <h3 class="section-title">Datos del empleado</h3>
             <div class="form-grid">
-              <div class="input-group"><label>CURP</label><input type="text"></div>
-              <div class="input-group"><label>Nombres</label><input type="text"></div>
-              <div class="input-group"><label>Apellido Paterno</label><input type="text"></div>
-              <div class="input-group"><label>Apellido Materno</label><input type="text"></div>
-              <div class="input-group"><label>Fecha de Nacimiento</label><input type="date"></div>
-              <div class="input-group"><label>Celular</label><input type="text" placeholder="+52"></div>
-              <div class="input-group"><label>Facebook</label><input type="text"></div>
-              <div class="input-group"><label>Instagram</label><input type="text"></div>
-              <div class="input-group"><label>TikTok</label><input type="text"></div>
-              <div class="input-group"><label>Otras app</label><input type="text"></div>
+              <div class="input-group">
+                <label>CURP</label>
+                <input type="text" v-model="form.curp" placeholder="Ej. ABCD010101HDF000">
+              </div>
+              <div class="input-group">
+                <label>Nombres</label>
+                <input type="text" v-model="form.nombres" placeholder="Ej. Juan">
+              </div>
+              <div class="input-group">
+                <label>Apellido Paterno</label>
+                <input type="text" v-model="form.apellidoP" placeholder="Ej. Pérez">
+              </div>
+              <div class="input-group">
+                <label>Apellido Materno</label>
+                <input type="text" v-model="form.apellidoM" placeholder="Ej. Gómez">
+              </div>
+              <div class="input-group">
+                <label>Fecha de Nacimiento</label>
+                <input type="date" v-model="form.fechaNacimiento">
+              </div>
+              <div class="input-group">
+                <label>Celular</label>
+                <input type="text" v-model="form.celular" placeholder="+52 000 000 0000">
+              </div>
+              <div class="input-group">
+                <label>Facebook</label>
+                <input type="text" v-model="form.facebook" placeholder="usuario_fb">
+              </div>
+              <div class="input-group">
+                <label>Instagram</label>
+                <input type="text" v-model="form.instagram" placeholder="@usuario_ig">
+              </div>
+              <div class="input-group">
+                <label>TikTok</label>
+                <input type="text" v-model="form.tiktok" placeholder="@usuario_tt">
+              </div>
+              <div class="input-group">
+                <label>Otras app</label>
+                <input type="text" v-model="form.otrasApps" placeholder="Ej. X, LinkedIn">
+              </div>
             </div>
           </div>
 
@@ -40,22 +71,39 @@
             <div class="form-grid">
               <div class="input-group">
                 <label>Rol en el sistema</label>
-                <select class="custom-select"><option>Seleccionar</option></select>
+                <select v-model="form.rol" class="custom-select">
+                  <option value="" disabled>Seleccionar</option>
+                  <option value="admin">Administrador</option>
+                  <option value="entrenador">Entrenador</option>
+                  <option value="recepcion">Recepción</option>
+                </select>
               </div>
-              <div class="input-group"><label>Correo electrónico</label><input type="email"></div>
-              <div class="input-group"><label>Especialidad</label><input type="text"></div>
+              <div class="input-group">
+                <label>Correo electrónico</label>
+                <input type="email" v-model="form.email" placeholder="correo@ejemplo.com">
+              </div>
+              <div class="input-group">
+                <label>Especialidad</label>
+                <input type="text" v-model="form.especialidad" placeholder="Ej. Musculación">
+              </div>
             </div>
           </div>
 
           <div class="login-card">
             <h3 class="section-title">Horario de trabajo</h3>
             <div class="form-grid">
-              <div class="input-group"><label>Entrada</label><input type="time"></div>
-              <div class="input-group"><label>Salida</label><input type="time"></div>
+              <div class="input-group">
+                <label>Entrada</label>
+                <input type="time" v-model="form.horaEntrada">
+              </div>
+              <div class="input-group">
+                <label>Salida</label>
+                <input type="time" v-model="form.horaSalida">
+              </div>
             </div>
           </div>
 
-          <button class="btn-primary">Finalizar registro</button>
+          <button class="btn-primary" @click="saveRegistration">Finalizar Registro</button>
         </div>
       </div>
     </main>
@@ -63,11 +111,48 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, reactive } from 'vue';
+import { useRouter } from 'vue-router';
 import HeadingAdmin from '../HeadingAdmin.vue';
-
+import NotificationSystem from '../../Modals/NotificationSystem.vue'; 
+const router = useRouter();
+const activeModal = ref(null);
+const toastRef = ref(null);
 const fileInput = ref(null);
 const handleFileChange = (e) => { console.log(e.target.files[0]); };
+
+const form = reactive({
+  curp: '',
+  nombres: '',
+  apellidoP: '',
+  apellidoM: '',
+  fechaNacimiento: '',
+  celular: '',
+  facebook: '',
+  instagram: '',
+  tiktok: '',
+  otrasApps: '',
+  rol: '',
+  email: '',
+  especialidad: '',
+  horaEntrada: '',
+  horaSalida: ''
+});
+
+const saveRegistration = () => {
+  // Validación: Puedes validar uno o varios campos obligatorios
+  if (!form.nombres || !form.apellidoP) {
+    toastRef.value.notify('Por favor, completa los campos obligatorios ', 'warning');
+    return;
+  }
+  
+  try {
+    console.log("Datos a guardar:", form); // Verifica que los datos lleguen bien
+    toastRef.value.notify('Registro guardado con éxito', 'success');
+  } catch (error) {
+    toastRef.value.notify('Error al guardar el registro', 'error');
+  }
+};
 </script>
 
 <style scoped>

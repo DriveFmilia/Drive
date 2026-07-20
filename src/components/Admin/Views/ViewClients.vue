@@ -81,7 +81,7 @@
       </div>
         <!-- Modal QR -->
       <ModalComponent :isOpen="showQR" @close="showQR = false">
-        <h2 style="color:#fff; margin-bottom: 20px;">Código QR de Acceso</h2>
+        <h2 style="color: #1c4fd6; margin-bottom: 20px; font-family: 'Oswald', sans-serif; font-size: 1.3rem; text-transform: uppercase;">Código QR de Acceso</h2>
         
         <div class="qr-wrapper">
             <img src="../../../assets/qr.png" alt="QR" class="qr-image" />

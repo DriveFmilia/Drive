@@ -51,43 +51,7 @@ export const adminRoutes = [
         name: 'recovery',
         component: () => import('@/components/Admin/Componets/Account-Recovery.vue')
       },
-      {
-        path: 'graph',
-        name: 'graph',
-        component: () => import('@/components/Admin/Componets/Attendance.vue')
-      },
-       {
-        path: 'earnings',
-        name: 'earnings',
-        component: () => import('@/components/Admin/Componets/Earnings.vue')
-      },
-       {
-        path: 'help',
-        name: 'help',
-        component: () => import('@/components/Admin/Componets/Help.vue')
-      },
-       {
-        path: 'mail/:id',
-        name: 'mail',
-        component: () => import('@/components/Admin/Componets/Mail.vue')
-      },
-      
-       {
-        path: 'cut',
-        name: 'cut',
-        component: () => import('@/components/Admin/Componets/Cut.vue')
-      },
-      {
-        path: 'bulk-email',
-        name: 'bulk-email',
-        component: () => import('@/components/Admin/Componets/Bulk-Email.vue')
-      },
-       {
-        path: 'promos',
-        name: 'promos',
-        component: () => import('@/components/Admin/Componets/Promos.vue')
-      },
-      {
+     {
         path: 'statistics/:id',
         name: 'statistics',
         component: () => import('@/components/Admin/Statistics/Statistics.vue')
@@ -140,6 +104,43 @@ export const adminRoutes = [
         name: 'profile',
         component: () => import('@/components/Admin/Componets/Profile.vue')
       },
+      {
+        path: 'graph',
+        name: 'graph',
+        component: () => import('@/components/Admin/Componets/Attendance.vue')
+      },
+       {
+        path: 'earnings',
+        name: 'earnings',
+        component: () => import('@/components/Admin/Componets/Earnings.vue')
+      },
+       {
+        path: 'help',
+        name: 'help',
+        component: () => import('@/components/Admin/Componets/Help.vue')
+      },
+       {
+        path: 'mail/:id',
+        name: 'mail',
+        component: () => import('@/components/Admin/Componets/Mail.vue')
+      },
+      
+       {
+        path: 'cut',
+        name: 'cut',
+        component: () => import('@/components/Admin/Componets/Cut.vue')
+      },
+      {
+        path: 'bulk-email',
+        name: 'bulk-email',
+        component: () => import('@/components/Admin/Componets/Bulk-Email.vue')
+      },
+       {
+        path: 'promos',
+        name: 'promos',
+        component: () => import('@/components/Admin/Componets/Promos.vue')
+      },
+
     ]
   }
 ]

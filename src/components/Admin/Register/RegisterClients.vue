@@ -1,5 +1,6 @@
 <template>
   <HeadingAdmin>
+    <NotificationSystem ref="toastRef" />
     <main class="main-content">
       <div class="profile-card">
         <!-- Sección Perfil -->
@@ -22,23 +23,47 @@
           <div class="login-card">
             <h3 class="section-title">Datos Personales</h3>
             <div class="form-grid">
-              <div class="input-group"><label>Nombres</label><input type="text"></div>
-              <div class="input-group"><label>Apellido Paterno</label><input type="text"></div>
-              <div class="input-group"><label>Apellido Materno</label><input type="text"></div>
-              <div class="input-group"><label>Fecha de Nacimiento</label><input type="date"></div>
-              <div class="input-group"><label>Celular</label><input type="text" placeholder="+52"></div>
-              <div class="input-group"><label>Correo electrónico</label><input type="email"></div>
+              <div class="input-group">
+                <label>Nombres</label>
+                <input type="text" v-model="form.nombres" placeholder="Ej. Juan">
+              </div>
+              <div class="input-group">
+                <label>Apellido Paterno</label>
+                <input type="text" v-model="form.apellidoP" placeholder="Ej. Pérez">
+              </div>
+              <div class="input-group">
+                <label>Apellido Materno</label>
+                <input type="text" v-model="form.apellidoM" placeholder="Ej. Gómez">
+              </div>
+              <div class="input-group">
+                <label>Fecha de Nacimiento</label>
+                <input type="date" v-model="form.fechaNacimiento">
+              </div>
+              <div class="input-group">
+                <label>Celular</label>
+                <input type="text" v-model="form.celular" placeholder="+52 000 000 0000">
+              </div>
+              <div class="input-group">
+                <label>Correo electrónico</label>
+                <input type="email" v-model="form.email" placeholder="ejemplo@correo.com">
+              </div>
             </div>
           </div>
 
             <!-- Registro Físico y Membresía -->
-            <div class="login-card">
-              <h3 class="section-title">Registro de Físico</h3>
-              <div class="form-grid">
-                <div class="input-group"><label>Peso (Kg)</label><input type="text"></div>
-                <div class="input-group"><label>Altura (cm)</label><input type="text"></div>
+              <div class="login-card">
+                <h3 class="section-title">Registro de Físico</h3>
+                <div class="form-grid">
+                  <div class="input-group">
+                    <label>Peso (Kg)</label>
+                    <input type="text" v-model="form.peso" placeholder="Ej. 70">
+                  </div>
+                  <div class="input-group">
+                    <label>Altura (cm)</label>
+                    <input type="text" v-model="form.altura" placeholder="Ej. 175">
+                  </div>
+                </div>
               </div>
-            </div>
               
               <div class="login-card">
                 <h3 class="section-title">Datos de Membresía</h3>
@@ -48,48 +73,100 @@
                     <button type="button" class="btn-toggle-small">Semana</button>
                   </div>
                   <div class="actions-group">
-                    <!-- Botón de Ayuda -->
-                    <button type="button" class="action-btn" title="Ayuda" @click="goToCorte">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
-                        <line x1="12" y1="17" x2="12.01" y2="17"></line>
-                      </svg>
-                    </button>
-                    
                     <!-- Botón de Documentación -->
-                    <button type="button" class="action-btn" title="Documentación" @click="goToHelp">
+                    <button type="button" class="action-btn" title="Documentación"  @click="activeModal = 'corte'">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                         <polyline points="14 2 14 8 20 8"></polyline>
                         <line x1="16" y1="13" x2="8" y2="13"></line>
                         <line x1="16" y1="17" x2="8" y2="17"></line>
                       </svg>
-                    </button>
+                    </button>                    
+                    <!-- Botón de Ayuda -->
+                    <button type="button" class="action-btn" title="Ayuda" @click="activeModal = 'help'">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                        <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                      </svg>
+                    </button>                    
+      
                   </div>
                 </div>
                 <div class="form-grid">
-                  <div class="input-group"><label>Inscripción</label><input type="date"></div>
-                  <div class="input-group"><label>Fecha Corte</label><input type="date"></div>
+                  <div class="input-group">
+                    <label>Inscripción</label>
+                    <input type="date" v-model="form.fechaInscripcion">
+                  </div>
+                  <div class="input-group">
+                    <label>Fecha Corte</label>
+                    <input type="date" v-model="form.fechaCorte">
+                  </div>
                 </div>
               </div>
               
-              <button class="btn-primary">Finalizar Registro</button>
+              <button class="btn-primary" @click="saveRegistration">Finalizar Registro</button>
             </div>
         </div>
     </main>
+      <transition name="pop">
+      <div v-if="activeModal === 'corte'" class="modal-wrapper" @click.self="activeModal = null">
+        <AddCorteComponent @close="activeModal = null" />
+      </div>
+    
+    </transition>  
+    <transition name="pop">
+        <div v-if="activeModal === 'help'" class="modal-wrapper" @click.self="activeModal = null">
+          <Help @close="activeModal = null" />
+        </div>
+    </transition>  
   </HeadingAdmin>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, reactive } from 'vue';
 import { useRouter } from 'vue-router'; // 1. Importa useRouter
 import HeadingAdmin from '../HeadingAdmin.vue';
+import AddCorteComponent from '../Componets/Cut.vue';
+import Help from '../Componets/Help.vue';
+import NotificationSystem from '../../Modals/NotificationSystem.vue'; 
+
 const router = useRouter();
+const activeModal = ref(null);
+const toastRef = ref(null);
 
 const goToHelp = () => {
   router.push('/admin/help'); 
 };
+
+const form = reactive({
+  nombres: '',
+  apellidoP: '',
+  apellidoM: '',
+  fechaNacimiento: '',
+  celular: '',
+  email: '',
+  peso: '',
+  altura: '',
+  fechaInscripcion: '',
+  fechaCorte: ''
+});
+
+const saveRegistration = () => {
+  // Validación: Puedes validar uno o varios campos obligatorios
+  if (!form.nombres || !form.apellidoP || !form.apellidoM || !form.fechaNacimiento) {
+    toastRef.value.notify('Por favor, completa los campos obligatorios', 'warning');
+    return;
+  }
+  
+  try {
+    console.log("Datos a guardar:", form); // Verifica que los datos lleguen bien
+    toastRef.value.notify('Registro guardado con éxito', 'success');
+  } catch (error) {
+    toastRef.value.notify('Error al guardar el registro', 'error');
+  }
+};
+
 
 const goToCorte = () => {
   router.push('/admin/cut'); // Ajusta a tu ruta real
@@ -116,6 +193,18 @@ const openCamera = async () => {
   margin: 0 auto;   
   align-items: start; 
   justify-content: center; 
+}
+
+
+.modal-wrapper {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
 }
 
 .actions-group { display: flex; gap: 10px; }
