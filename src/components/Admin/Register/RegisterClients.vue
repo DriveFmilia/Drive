@@ -48,25 +48,25 @@
                     <button type="button" class="btn-toggle-small">Semana</button>
                   </div>
                   <div class="actions-group">
-                      <!-- Botón de Ayuda (Interrogación) -->
-                      <button type="button" class="action-btn" title="Ayuda">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                          <circle cx="12" cy="12" r="10"></circle>
-                          <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
-                          <line x1="12" y1="17" x2="12.01" y2="17"></line>
-                        </svg>
-                      </button>
-                      
-                      <!-- Botón de Documento -->
-                      <button type="button" class="action-btn" title="Documentación">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                          <polyline points="14 2 14 8 20 8"></polyline>
-                          <line x1="16" y1="13" x2="8" y2="13"></line>
-                          <line x1="16" y1="17" x2="8" y2="17"></line>
-                        </svg>
-                      </button>
-                    </div>
+                    <!-- Botón de Ayuda -->
+                    <button type="button" class="action-btn" title="Ayuda" @click="goToCorte">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                        <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                      </svg>
+                    </button>
+                    
+                    <!-- Botón de Documentación -->
+                    <button type="button" class="action-btn" title="Documentación" @click="goToHelp">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                        <line x1="16" y1="17" x2="8" y2="17"></line>
+                      </svg>
+                    </button>
+                  </div>
                 </div>
                 <div class="form-grid">
                   <div class="input-group"><label>Inscripción</label><input type="date"></div>
@@ -83,8 +83,17 @@
 
 <script setup>
 import { ref } from 'vue';
+import { useRouter } from 'vue-router'; // 1. Importa useRouter
 import HeadingAdmin from '../HeadingAdmin.vue';
+const router = useRouter();
 
+const goToHelp = () => {
+  router.push('/admin/help'); 
+};
+
+const goToCorte = () => {
+  router.push('/admin/cut'); // Ajusta a tu ruta real
+};
 const fileInput = ref(null);
 const handleFileChange = (e) => { console.log(e.target.files[0]); };
 const openCamera = async () => { 

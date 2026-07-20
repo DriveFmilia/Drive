@@ -5,16 +5,26 @@
         <h1 class="main-title">Pagos</h1>
       
         <div class="actions-bar">
-            <select class="status-select">
-            <option>Status</option>
+            <select class="status-select" v-model="selectedMembership">
+                <option value="">Mensualidad (Todas)</option>
+                <option value="Mensual">Mensual</option>
+                <option value="Quincenal">Quincenal</option>
             </select>
-            <button class="btn-bulk">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
-                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
-            </svg>
-            Correo Masivo
+            <select class="status-select" v-model="selectedStatus">
+                <option value="">Status (Todos)</option>
+                <option value="Activo">Activo</option>
+                <option value="Inactivo">Inactivo</option>
+                <option value="Pendiente">Pendiente</option>
+                <option value="Próximo a vencer">Próximo a vencer</option>
+            </select>
+            <button class="btn-bulk" @click="goToEmail()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+              </svg>
+              Correo Masivo
             </button>
-            <input type="text" class="search-input" placeholder="Buscar usuario...">
+            <!-- Modifica esta línea en tu template (dentro de div.actions-bar) -->
+             <input type="text" class="search-input" placeholder="Buscar usuario..." v-model="searchQuery" >
         </div>
         </header>
                 
@@ -26,12 +36,12 @@
             <tr><th>Foto</th><th>Nombre</th><th>Correo</th><th>Fecha a Vencer</th><th>Status</th><th>Acciones</th></tr>
           </thead>
           <tbody>
-            <tr v-for="user in users" :key="user.id">
+            <tr v-for="user in filteredUsers" :key="user.id">
               <td><div class="avatar-small"></div></td>
-              <td class="text-bold">Jesus Luis Ramires Sanchez</td>
-              <td>jesusluis@gmail.com</td>
-              <td>18/03/2026</td>
-              <td><span class="status-badge">Pendiente</span></td>
+              <td class="text-bold">{{user.name}}</td>
+              <td>{{user.email}}</td>
+              <td>{{user.expirationDate}}</td>
+              <td><span :class="['status-badge', getStatusClass(user.status)]">{{ user.status }}</span></td>
               <td class="actions-cell">
                 <!--<button class="icon-btn" title="Email"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></button>
                 <button class="icon-btn" title="WhatsApp" @click="openWhatsApp('+524811243421')"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 5.6 8.5 8.5 0 0 1-7.6-5.6 8.38 8.38 0 0 1-.9-3.8A8.5 8.5 0 0 1 12 3a8.5 8.5 0 0 1 9 8.5z"/><path d="M9 12l2 2 4-4"/></svg></button>
@@ -47,16 +57,21 @@
 
       <!-- VISTA MÓVIL -->
       <div class="mobile-only">
-        <div v-for="user in users" :key="user.id" class="user-card">
+        <div v-for="user in filteredUsers" :key="user.id" class="user-card">
             <div class="card-header">
             <div class="avatar-small"></div>
             
             <div class="card-info">
                 <div class="top-row">
                     <div class="text-bold name-text">{{ user.name }}</div>
-                    <span class="status-badge">Pendiente</span>
+                    <span :class="['status-badge', getStatusClass(user.status)]">
+                      {{ user.status }}
+                    </span>
                 </div>
-                <div class="card-meta">jesusluis@gmail.com | +52 4811 243421</div>
+                <div class="card-meta">
+                    {{user.email}} <br> 
+                    <span style="color: yellow;">Vence:</span> {{user.expirationDate}}
+                </div>
             </div>        
           </div>
           <div class="card-actions">
@@ -91,10 +106,36 @@
 
 .actions-bar { display: flex; gap: 15px; align-items: center; }
 .search-input, .status-select { background: #1a1a1a; border: 1px solid #444; padding: 10px 16px; border-radius: 8px; color: #fff; }
-.btn-bulk { background: #3b82f6; border: none; padding: 10px 20px; border-radius: 8px; color: white; display: flex; align-items: center; gap: 8px; cursor: pointer; white-space: nowrap; }
+.btn-bulk {
+  background: #111;
+  border: 1px solid #333; 
+  padding: 10px 20px;
+  border-radius: 8px;
+  color: #fff; 
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  white-space: nowrap;
+}
 
+.btn-bulk svg { color: #3b82f6; }
 .desktop-only { display: block; }
 .mobile-only { display: none; }
+  .status-badge {
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    border: 1px solid;
+    font-weight: 500;
+  }
+
+  /* Colores dinámicos */
+  .status-green { background: rgba(6, 78, 59, 0.4); color: #34d399; border-color: #064e3b; }
+  .status-red { background: rgba(153, 27, 27, 0.4); color: #f87171; border-color: #7f1d1d; }
+  .status-orange { background: rgba(180, 83, 9, 0.4); color: #fbbf24; border-color: #78350f; }
+  .status-yellow { background: rgba(161, 161, 35, 0.4); color: #fef08a; border-color: #854d0e; }
+  .status-default { background: #333; color: #fff; border-color: #555; }
 
 .modal-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); display:flex; justify-content:center; align-items:center; z-index:1000; }
 .modal-content { background:#111; padding:25px; border-radius:15px; width:90%; max-width:400px; text-align:center; position:relative; border: 1px solid #333; }
@@ -104,18 +145,22 @@
   .mobile-only { display: block; }
   .header-section { flex-direction: column; align-items: stretch; gap: 15px; }
 
-  
-  .actions-bar { 
-    display: grid; 
-    grid-template-columns: 1fr 1fr; 
-    gap: 10px; 
+  .search-input { 
+    order: -1; 
     width: 100%; 
   }
 
   .status-select { 
     width: 100%; 
-    padding: 10px 8px; 
+    order: 0;
+  }  
+  .actions-bar { 
+    display: flex; 
+    flex-direction: column; /* Cambiamos a columna para apilar */
+    gap: 10px; 
+    width: 100%; 
   }
+
   
   .btn-bulk { 
     width: 100%;
@@ -163,7 +208,7 @@
 .card-actions { border-top: 1px dashed #333; padding-top: 15px; display: flex; justify-content: space-between; }
 .icon-btn { background: transparent; border: none; cursor: pointer; color: #888; padding: 4px; }
 .avatar-small { width: 40px; height: 40px; background: #333; border-radius: 50%; }
-.status-badge { background: rgba(78, 71, 6, 0.4); color: #d3bb34; padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; border: 1px solid #3e4e06; }
+
 .text-bold { font-weight: 600; color: #fff; }
 
 .btn-bulk, 
@@ -190,25 +235,77 @@
 </style>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import HeadingAdmin from './HeadingAdmin.vue';
 import ModalComponent from './../Modals/ModalComponent.vue';
+
 
 const router = useRouter();
 const showQR = ref(false);
 const showDelete = ref(false);
 const selectedUser = ref(null);
+const selectedRoleFilter = ref('Todos');
+const goToEmail = (userId = null) => {
+  if (userId) {
+    // Si pasas un ID, vas al correo de un usuario específico
+    router.push(`/admin/mail/${userId}`);
+  } else {
+    // Si no, vas al correo masivo
+    router.push('/admin/bulk-email');
+  }
+};
+const searchQuery = ref('');
+const selectedMembership = ref(''); 
+const selectedStatus = ref('');
+const filteredUsers = computed(() => {
+  return users.value.filter(user => {
+    // Filtros de los selects
+    const matchMembership = selectedMembership.value ? user.mensualidad === selectedMembership.value : true;
+    const matchStatus = selectedStatus.value ? user.status === selectedStatus.value : true;
+    
+    // Filtro del buscador (busca por nombre o correo)
+    const term = searchQuery.value.toLowerCase();
+    const matchSearch = user.name.toLowerCase().includes(term) || 
+                        user.email.toLowerCase().includes(term) ||
+                        user.phone.toLowerCase().includes(term) ||
+                        user.mensualidad.toLowerCase().includes(term) ||
+                        user.status.toLowerCase().includes(term) || 
+                        user.expirationDate.toLowerCase().includes(term) ||
+                        user.id.toString().includes(term);
+    
+    // Retorna true solo si pasa los tres filtros
+    return matchMembership && matchStatus && matchSearch;
+  });
+});
+
+// Función para obtener la clase dinámica
+const getDebtClass = (status) => {
+  if (status === 'Activo') return 'debt-active';
+  if (status === 'Inactivo') return 'debt-inactive';
+  if (status === 'Pendiente') return 'debt-pending';
+  if (status === 'Próximo a vencer') return 'debt-warning';
+  return 'debt-default';
+};
+const getStatusClass = (status) => {
+  const classes = {
+    'Activo': 'status-green',
+    'Inactivo': 'status-red',
+    'Pendiente': 'status-orange',
+    'Próximo a vencer': 'status-yellow'
+  };
+  return classes[status] || 'status-default';
+};
 
 const users = ref([
-  { id: 1, name: 'Jesus Luis Ramires Sanchez', email: '...', phone: '...' },
-  { id: 2, name: 'Jesus Luis Ramires Sanchez', email: '...', phone: '...' },
-  { id: 3, name: 'Jesus Luis Ramires Sanchez', email: '...', phone: '...' },
-  { id: 4, name: 'Jesus Luis Ramires Sanchez', email: '...', phone: '...' },
-  { id: 5, name: 'Jesus Luis Ramires Sanchez', email: '...', phone: '...' },
-  { id: 6, name: 'Jesus Luis Ramires Sanchez', email: '...', phone: '...' },
-  { id: 7, name: 'Jesus Luis Ramires Sanchez', email: '...', phone: '...' },
-  { id: 8, name: 'Jesus Luis Ramires Sanchez', email: '...', phone: '...' },      
+  { id: 1, name: 'Maria Luis Ramires Sanchez', email: 'Maria.luis@example.com', expirationDate: '18/03/2026', status: 'Activo', phone: '+52 481 123 4321' , mensualidad: 'Mensual' },
+  { id: 2, name: 'Francisco Luis Ramires Sanchez', email: 'Francisco.luis@example.com', expirationDate: '18/03/2026', status: 'Pendiente', phone: '+52 481 123 4321' , mensualidad: 'Quincenal' },
+  { id: 3, name: 'Luis Ramires Sanchez', email: 'Luis.luis@example.com', expirationDate: '18/03/2026', status: 'Activo', phone: '+52 481 123 4321' , mensualidad: 'Mensual' },
+  { id: 4, name: 'Jose Luis Ramires Sanchez', email: 'Jose.luis@example.com', expirationDate: '18/03/2026', status: 'Inactivo', phone: '+52 481 123 4321' , mensualidad: 'Quincenal' },
+  { id: 5, name: 'Mario Luis Ramires Sanchez', email: 'Mario.luis@example.com', expirationDate: '18/03/2026', status: 'Pendiente', phone: '+52 481 123 4321' , mensualidad: 'Mensual' },
+  { id: 6, name: 'Jesus Luis Ramires Sanchez', email: 'Jesus.luis@example.com', expirationDate: '18/03/2026', status: 'Inactivo', phone: '+52 481 123 4321' , mensualidad: 'Quincenal' },
+  { id: 7, name: 'Ana Luis Ramires Sanchez', email: 'Ana.luis@example.com', expirationDate: '18/03/2026', status: 'Activo', phone: '+52 481 123 4321' , mensualidad: 'Mensual' },
+  { id: 8, name: 'Carlos Luis Ramires Sanchez', email: 'Carlos.luis@example.com', expirationDate: '18/03/2026', status: 'Pendiente', phone: '+52 481 123 4321' , mensualidad: 'Quincenal' },
 ]);
 
 const openQR = (user) => { selectedUser.value = user; showQR.value = true; };

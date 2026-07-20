@@ -5,16 +5,25 @@
         <h1 class="main-title">Usuarios</h1>
       
         <div class="actions-bar">
-            <select class="status-select">
-            <option>Status</option>
+            <select class="status-select" v-model="selectedMembership">
+                <option value="">Mensualidad (Todas)</option>
+                <option value="Mensual">Mensual</option>
+                <option value="Quincenal">Quincenal</option>
             </select>
-            <button class="btn-bulk">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
-                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
-            </svg>
-            Correo Masivo
+            <select class="status-select" v-model="selectedStatus">
+                <option value="">Status (Todos)</option>
+                <option value="Activo">Activo</option>
+                <option value="Inactivo">Inactivo</option>
+                <!--<option value="Pendiente">Pendiente</option>
+                <option value="Próximo a vencer">Próximo a vencer</option>-->
+            </select>
+            <button class="btn-bulk" @click="goToEmail()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+              </svg>
+              Correo Masivo
             </button>
-            <input type="text" class="search-input" placeholder="Buscar usuario...">
+            <input type="text" class="search-input" placeholder="Buscar usuario..." v-model="searchQuery" >
         </div>
         </header>
                 
@@ -26,15 +35,15 @@
             <tr><th>Foto</th><th>Nombre</th><th>Correo</th><th>Celular</th><th>Status</th><th>Acciones</th></tr>
           </thead>
           <tbody>
-            <tr v-for="user in users" :key="user.id">
+            <tr v-for="user in filteredUsers" :key="user.id">
               <td><div class="avatar-small"></div></td>
-              <td class="text-bold">Jose Luis Ramires Sanchez</td>
-              <td>joseluis@gmail.com</td>
-              <td>+52 4811 243421</td>
-              <td><span class="status-badge">Activo</span></td>
+              <td class="text-bold">{{user.name}}</td>
+              <td>{{user.email}}</td>
+              <td>{{user.phone}}</td>
+              <td><span :class="['status-badge', getStatusClass(user.status)]">{{ user.status }}</span></td>
               <td class="actions-cell">
-                <button class="icon-btn" title="Email"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></button>
-                <button class="icon-btn" title="WhatsApp" @click="openWhatsApp('+524811243421')"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 5.6 8.5 8.5 0 0 1-7.6-5.6 8.38 8.38 0 0 1-.9-3.8A8.5 8.5 0 0 1 12 3a8.5 8.5 0 0 1 9 8.5z"/><path d="M9 12l2 2 4-4"/></svg></button>
+                <button class="icon-btn" title="Email" @click="goToEmail(user.id)"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></button>
+                <button class="icon-btn" @click="openWhatsApp(user.phone)"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 5.6 8.5 8.5 0 0 1-7.6-5.6 8.38 8.38 0 0 1-.9-3.8A8.5 8.5 0 0 1 12 3a8.5 8.5 0 0 1 9 8.5z"/><path d="M9 12l2 2 4-4"/></svg></button>
                 <button class="icon-btn" title="QR" @click="openQR(user)"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h6v6H3V3zm0 12h6v6H3v-6zM15 3h6v6h-6V3z"/><path d="M15 15h2v2h-2zm2 2h2v2h-2zm-2 2h2v2h-2zm4 0h2v2h-2zm0-4h2v2h-2zm-2-2h2v2h-2zm0 4h2v2h-2zm-4-4h2v2h-2z"/></svg></button>
                 <button class="icon-btn" title="Editar" @click="goToEdit(user.id)"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
                 <button class="icon-btn" title="Eliminar" @click="confirmDelete(user)"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
@@ -46,22 +55,25 @@
 
       <!-- VISTA MÓVIL -->
       <div class="mobile-only">
-        <div v-for="user in users" :key="user.id" class="user-card">
-            <div class="card-header">
+        <div v-for="user in filteredUsers" :key="user.id" class="user-card">
+          <div class="card-header">
             <div class="avatar-small"></div>
-            
             <div class="card-info">
-                <div class="top-row">
-                    <div class="text-bold name-text">{{ user.name }}</div>
-                    <span class="status-badge">Activo</span>
-                </div>
-                <div class="card-meta">joseluis@gmail.com | +52 4811 243421</div>
-            </div>    
+              <div class="top-row">
+                <div class="text-bold name-text">{{ user.name }}</div>
+                <span :class="['status-badge', getStatusClass(user.status)]">{{ user.status }}</span>
+              </div>
+              <!-- Separamos claramente el correo y teléfono con clases propias -->
+              <div class="card-meta">
+                <div class="meta-item">{{ user.email }}</div>
+                <div class="meta-item">{{ user.phone }}</div>
+              </div>
             </div>
+          </div>
           <div class="card-actions">
-            <button class="icon-btn"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></button>
-            <button class="icon-btn" @click="openWhatsApp('+524811243421')"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 5.6 8.5 8.5 0 0 1-7.6-5.6 8.38 8.38 0 0 1-.9-3.8A8.5 8.5 0 0 1 12 3a8.5 8.5 0 0 1 9 8.5z"/><path d="M9 12l2 2 4-4"/></svg></button>
-            <button class="icon-btn" @click="openQR(user)"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h6v6H3V3zm0 12h6v6H3v-6zM15 3h6v6h-6V3z"/><path d="M15 15h2v2h-2zm2 2h2v2h-2zm-2 2h2v2h-2zm4 0h2v2h-2zm0-4h2v2h-2zm-2-2h2v2h-2zm0 4h2v2h-2zm-4-4h2v2h-2z"/></svg></button>
+            <button class="icon-btn" title="Email" @click="goToEmail(user.id)"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></button>
+            <button class="icon-btn" @click="openWhatsApp(user.phone)"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 5.6 8.5 8.5 0 0 1-7.6-5.6 8.38 8.38 0 0 1-.9-3.8A8.5 8.5 0 0 1 12 3a8.5 8.5 0 0 1 9 8.5z"/><path d="M9 12l2 2 4-4"/></svg></button>
+          <button class="icon-btn"@click="openQR(user)"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h6v6H3V3zm0 12h6v6H3v-6zM15 3h6v6h-6V3z"/><path d="M15 15h2v2h-2zm2 2h2v2h-2zm-2 2h2v2h-2zm4 0h2v2h-2zm0-4h2v2h-2zm-2-2h2v2h-2zm0 4h2v2h-2zm-4-4h2v2h-2z"/></svg></button>
             <button class="icon-btn" @click="goToEdit(user.id)"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
             <button class="icon-btn" @click="confirmDelete(user)"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
           </div>
@@ -103,8 +115,20 @@
 
 .actions-bar { display: flex; gap: 15px; align-items: center; }
 .search-input, .status-select { background: #1a1a1a; border: 1px solid #444; padding: 10px 16px; border-radius: 8px; color: #fff; }
-.btn-bulk { background: #3b82f6; border: none; padding: 10px 20px; border-radius: 8px; color: white; display: flex; align-items: center; gap: 8px; cursor: pointer; white-space: nowrap; }
+.btn-bulk {
+  background: #111; 
+  border: 1px solid #333; 
+  padding: 10px 20px;
+  border-radius: 8px;
+  color: #fff; 
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  white-space: nowrap;
+}
 
+.btn-bulk svg { color: #3b82f6; }
 .desktop-only { display: block; }
 .mobile-only { display: none; }
 
@@ -116,19 +140,58 @@
   .mobile-only { display: block; }
   .header-section { flex-direction: column; align-items: stretch; gap: 15px; }
 
-  
-  .actions-bar { 
-    display: grid; 
-    grid-template-columns: 1fr 1fr; 
-    gap: 10px; 
+  .search-input { 
+    order: -1; 
     width: 100%; 
   }
 
   .status-select { 
     width: 100%; 
-    padding: 10px 8px; 
+    order: 0;
+  }  
+  .actions-bar { 
+    display: flex; 
+    flex-direction: column; /* Cambiamos a columna para apilar */
+    gap: 10px; 
+    width: 100%; 
+  }
+
+  .user-card { 
+    padding: 20px; 
+    margin-bottom: 20px;
+  }
+
+  .card-info { 
+    width: 100%; 
+    padding-left: 5px; /* Evita que el texto pegue con el avatar */
+  }
+  .card-header { 
+    display: flex; 
+    align-items: center; /* Centramos verticalmente */
+    gap: 15px; 
+    margin-bottom: 20px; 
+  }
+  .card-meta { 
+    display: flex; 
+    flex-direction: column; /* Apilamos correo y teléfono */
+    gap: 5px;
+    margin-top: 8px;
+    font-size: 0.85rem;
+  }
+
+  .card-actions { 
+    justify-content: space-around; 
+    padding-top: 15px;
   }
   
+  .status-badge {
+    margin: 8px 0; 
+    display: inline-block;
+  }
+  .avatar-small {
+    min-width: 40px; 
+    height: 40px;
+  }
   .btn-bulk { 
     width: 100%;
     justify-content: center; 
@@ -141,11 +204,17 @@
   }
   .top-row {
     display: flex;
-    flex-direction: column; 
+    flex-direction: column;
     align-items: flex-start;
-    gap: 4px;
+    gap: 8px;
+    margin-bottom: 10px;
   }
-
+  .meta-item {
+    font-size: 0.85rem;
+    color: #aaa;
+    margin-bottom: 4px;
+    word-break: break-all; 
+  }
   .name-text {
     font-size: 1rem;
     line-height: 1.3;
@@ -157,10 +226,9 @@
   }
 
   .status-badge {
-    align-self: flex-start; 
-    font-size: 0.65rem;
+    margin-top: 5px;
+    align-self: flex-start;
   }
-
 
 }
 
@@ -176,7 +244,22 @@
 .card-actions { border-top: 1px dashed #333; padding-top: 15px; display: flex; justify-content: space-between; }
 .icon-btn { background: transparent; border: none; cursor: pointer; color: #888; padding: 4px; }
 .avatar-small { width: 40px; height: 40px; background: #333; border-radius: 50%; }
-.status-badge { background: rgba(6, 78, 59, 0.4); color: #34d399; padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; border: 1px solid #064e3b; }
+  .status-badge {
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    border: 1px solid;
+    font-weight: 500;
+  }
+
+  /* Colores dinámicos */
+  .status-green { background: rgba(6, 78, 59, 0.4); color: #34d399; border-color: #064e3b; }
+  .status-red { background: rgba(153, 27, 27, 0.4); color: #f87171; border-color: #7f1d1d; }
+  .status-orange { background: rgba(180, 83, 9, 0.4); color: #fbbf24; border-color: #78350f; }
+  .status-yellow { background: rgba(161, 161, 35, 0.4); color: #fef08a; border-color: #854d0e; }
+  .status-default { background: #333; color: #fff; border-color: #555; }
+
+
 .text-bold { font-weight: 600; color: #fff; }
 
 .btn-bulk, 
@@ -201,26 +284,81 @@
 </style>
 
 <script setup>
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { ref, computed } from 'vue';
 import HeadingAdmin from '../HeadingAdmin.vue';
 import ModalComponent from '../../Modals/ModalComponent.vue';
+
+import { useRouter } from 'vue-router';
+
+
+// Función para navegación a correos
+const goToEmail = (userId = null) => {
+  if (userId) {
+    // Si pasas un ID, vas al correo de un usuario específico
+    router.push(`/admin/mail/${userId}`);
+  } else {
+    // Si no, vas al correo masivo
+    router.push('/admin/bulk-email');
+  }
+};
+
+const selectedMembership = ref(''); 
+const selectedStatus = ref(''); 
+const searchQuery = ref(''); // 1. Nuevo estado para el buscador
+
+const filteredUsers = computed(() => {
+  return users.value.filter(user => {
+    // Filtros existentes
+    const matchMembership = selectedMembership.value ? user.mensualidad === selectedMembership.value : true;
+    const matchStatus = selectedStatus.value ? user.status === selectedStatus.value : true;
+    
+    // 2. Nuevo filtro de búsqueda
+    const term = searchQuery.value.toLowerCase();
+    const matchSearch = user.name.toLowerCase().includes(term) || 
+                        user.email.toLowerCase().includes(term) ||
+                        user.phone.toLowerCase().includes(term) ||
+                        user.mensualidad.toLowerCase().includes(term) ||
+                        user.status.toLowerCase().includes(term) || 
+                        user.id.toString().includes(term);
+
+    
+    return matchMembership && matchStatus && matchSearch;
+  });
+});
+
+const selectStatus = (status) => {
+  if (status === 'Activo') return 'debt-active';
+  if (status === 'Inactivo') return 'debt-inactive';
+  if (status === 'Pendiente') return 'debt-pending';
+  if (status === 'Próximo a vencer') return 'debt-warning';
+  return 'debt-default';
+};
 
 const router = useRouter();
 const showQR = ref(false);
 const showDelete = ref(false);
 const selectedUser = ref(null);
+const getStatusClass = (status) => {
+  const classes = {
+    'Activo': 'status-green',
+    'Inactivo': 'status-red',
+    'Pendiente': 'status-orange',
+    'Próximo a vencer': 'status-yellow'
+  };
+  return classes[status] || 'status-default';
+};
 
 const users = ref([
-  { id: 1, name: 'Jose Luis Ramires Sanchez', email: '...', phone: '...' },
-  { id: 2, name: 'Jose Luis Ramires Sanchez', email: '...', phone: '...' },
-  { id: 3, name: 'Jose Luis Ramires Sanchez', email: '...', phone: '...' },
-  { id: 4, name: 'Jose Luis Ramires Sanchez', email: '...', phone: '...' },
-  { id: 5, name: 'Jose Luis Ramires Sanchez', email: '...', phone: '...' },
-  { id: 6, name: 'Jose Luis Ramires Sanchez', email: '...', phone: '...' },
-  { id: 7, name: 'Jose Luis Ramires Sanchez', email: '...', phone: '...' },
-  { id: 8, name: 'Jose Luis Ramires Sanchez', email: '...', phone: '...' },      
+  { id: 1, name: 'Maria Luis Ramires Sanchez', email: 'Maria.luis@example.com', expirationDate: '18/03/2026', status: 'Activo', phone: '+52 481 123 4321' , mensualidad: 'Mensual' },
+  { id: 2, name: 'Francisco Luis Ramires Sanchez', email: 'Francisco.luis@example.com', expirationDate: '18/03/2026', status: 'Inactivo', phone: '+52 481 123 4321' , mensualidad: 'Quincenal' },
+  { id: 3, name: 'Luis Ramires Sanchez', email: 'Luis.luis@example.com', expirationDate: '18/03/2026', status: 'Activo', phone: '+52 481 123 4321' , mensualidad: 'Mensual' },
+  { id: 4, name: 'Jose Luis Ramires Sanchez', email: 'Jose.luis@example.com', expirationDate: '18/03/2026', status: 'Inactivo', phone: '+52 481 123 4321' , mensualidad: 'Quincenal' },
+  { id: 5, name: 'Mario Luis Ramires Sanchez', email: 'Mario.luis@example.com', expirationDate: '18/03/2026', status: 'Activo', phone: '+52 481 123 4321' , mensualidad: 'Mensual' },
+  { id: 6, name: 'Jesus Luis Ramires Sanchez', email: 'Jesus.luis@example.com', expirationDate: '18/03/2026', status: 'Inactivo', phone: '+52 481 123 4321' , mensualidad: 'Quincenal' },
+  { id: 7, name: 'Ana Luis Ramires Sanchez', email: 'Ana.luis@example.com', expirationDate: '18/03/2026', status: 'Activo', phone: '+52 481 123 4321' , mensualidad: 'Mensual' },
+  { id: 8, name: 'Carlos Luis Ramires Sanchez', email: 'Carlos.luis@example.com', expirationDate: '18/03/2026', status: 'Activo', phone: '+52 481 123 4321' , mensualidad: 'Quincenal' },
 ]);
+
 
 const openQR = (user) => { selectedUser.value = user; showQR.value = true; };
 const confirmDelete = (user) => { selectedUser.value = user; showDelete.value = true; };

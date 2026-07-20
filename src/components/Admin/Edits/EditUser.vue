@@ -4,7 +4,7 @@
       <div class="search-bar-container">
       <div class="input-group search-small">
         <label>Buscar Cliente</label>
-        <input type="text" placeholder="Buscar...">
+        <input type="text" placeholder="Buscar..." v-model="searchQuery" @keyup.enter="handleSearch">
       </div>
     </div>
       <div class="profile-card">
@@ -80,7 +80,15 @@ import HeadingAdmin from '../HeadingAdmin.vue';
 
 const router = useRouter(); 
 const fileInput = ref(null); 
+const searchQuery = ref('');
 
+const handleSearch = () => {
+  if (searchQuery.value.trim()) {
+    console.log("Buscando cliente:", searchQuery.value);
+    // Ejemplo de redirección si buscas por ID o nombre
+    // router.push({ name: 'profile', params: { id: searchQuery.value } });
+  }
+};
 const goToStatistics = () => router.push({ name: 'statistics', params: { id: 'GymPer001' } });
 const triggerFileUpload = () => fileInput.value.click(); 
 const handleFileChange = (event) => {

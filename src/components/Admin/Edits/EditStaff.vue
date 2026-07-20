@@ -2,10 +2,10 @@
   <HeadingAdmin>
     <main class="main-content">
       <div class="search-bar-container">
-        <div class="input-group search-small">
-          <label>Buscar Personal</label>
-          <input type="text" placeholder="Buscar...">
-        </div>
+      <div class="input-group search-small">
+      <label>Buscar Personal</label>
+      <input type="text" placeholder="Buscar..." v-model="searchQuery" @keyup.enter="handleSearch">
+</div>
       </div>
       <div class="profile-card">
         <!-- Sección Perfil (Altura ajustada) -->
@@ -80,7 +80,15 @@ import HeadingAdmin from '../HeadingAdmin.vue';
 const route = useRoute();
 const router = useRouter(); 
 const fileInput = ref(null); 
+const searchQuery = ref('');
 
+const handleSearch = () => {
+  if (searchQuery.value.trim()) {
+    console.log("Buscando usuario:", searchQuery.value);
+    // Aquí iría tu lógica para buscar en la base de datos o filtrar
+    // router.push({ name: 'profile', params: { id: searchQuery.value } });
+  }
+};
 const goToStatistics = () => {
   router.push({ name: 'statistics', params: { id: 'GymPer001' } });
 };
