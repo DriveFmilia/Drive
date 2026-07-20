@@ -1,9 +1,13 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
+import HelpButton from './components/Admin/HelpButton.vue';
 </script>
+
+
 
 <template>
   <RouterView />
+  <HelpButton />
 </template>
 
 <style>
