@@ -4,7 +4,7 @@ import { useRouter } from 'vue-router';
 import Logo from '@/landing/logo.vue';
 
 const VALID_USERS: Record<string, string> = {
-  'capulina': 'Administrador',
+  'capulina@gmail.com': 'Administrador',
   'dueño@gmail.com': 'Dueño',
   'recepcionista@gmail.com': 'Recepcionista',
   'cliente@gmail.com': 'Cliente',
@@ -40,7 +40,7 @@ const handleSubmit = () => {
   errorMessage.value = '';
   successMessage.value = `Acceso concedido como ${role}. Redirigiendo...`;
 
-  if (userEmail === 'capulina') {
+  if (userEmail === 'capulina@gmail.com') {
     router.push({ name: 'admin-dashboard' });
   }
 };
