@@ -6,7 +6,7 @@ import Benefits from '../landing/components/Benefits.vue'
 import Roles from '../landing/components/Roles.vue'
 import MonthlyPayments from '../landing/components/Monthly-payments.vue'
 import Footer from '../landing/components/Footer.vue'
-import Login from './Menu/Login.vue'
+import Login from '@/components/Login.vue'
 import Record from './Menu/Record.vue'
 const scrollToSection = (id: string) => {
   const element = document.getElementById(id);
@@ -18,15 +18,10 @@ const scrollToSection = (id: string) => {
 
 <template>
   <div class="flex flex-col min-h-screen">
-    <Heading @navigate="scrollToSection" />
 
     <main class="flex-grow">
-      <AboutUs />
-      <Benefits />
-      <Roles />
-      <MonthlyPayments />
+      <Login />
     </main>
 
-    <Footer />
   </div>
 </template>

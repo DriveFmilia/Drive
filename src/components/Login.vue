@@ -50,12 +50,7 @@ const handleSubmit = () => {
   <div class="login-page">
     <div class="glow"></div>
 
-    <header class="top-bar">
-      <router-link :to="{ name: 'home' }" class="top-brand">
-        <Logo />
-        <span class="logo-text">FITMANAGE <span class="text-accent">PRO</span></span>
-      </router-link>
-    </header>
+
 
     <main class="login-container">
       <div class="login-card">
@@ -82,8 +77,7 @@ const handleSubmit = () => {
           <div class="input-group">
             <div class="label-row">
               <label for="password">Contraseña</label>
-              <router-link :to="{ name: 'recover-password-client' }" class="forgot-link">¿Olvidaste tu contraseña?</router-link>
-            </div>
+              </div>
             <div class="input-wrapper">
               <input
                 id="password"
@@ -108,9 +102,6 @@ const handleSubmit = () => {
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
           </button>
 
-          <div class="divider"><span>¿ERES NUEVO?</span></div>
-
-          <router-link to="/RecordClient" class="btn-secondary">Registrarte</router-link>
         </form>
       </div>
     </main>
@@ -118,7 +109,7 @@ const handleSubmit = () => {
 </template>
 
 <style scoped>
-.highlight { color: #3b82f6; }
+.highlight { color: #05563c; }
 .login-page {
   min-height: 100vh;
   background: #0a0a0a;
@@ -144,7 +135,6 @@ const handleSubmit = () => {
   animation: pulseGlow 6s ease-in-out infinite;
   pointer-events: none;
 }
-.highlight { color: #3b82f6; }
 
 @keyframes pulseGlow { 0%, 100% { opacity: 0.28; } 50% { opacity: 0.5; } }
 @keyframes fadeUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
@@ -237,7 +227,7 @@ const handleSubmit = () => {
 
 label {
   font-family: 'Oswald', sans-serif;
-  font-size: 12.5px;
+  font-size: 14.5px;
   font-weight: 700;
   letter-spacing: 0.4px;
   color: #f5f5f4;
@@ -320,7 +310,7 @@ input:focus {
 .btn-primary {
   width: 100%;
   padding: 16px;
-  background: #1c4fd6;
+  background: #05563c;
   color: #ffffff;
   border: none;
   border-radius: 12px;
@@ -335,11 +325,11 @@ input:focus {
   justify-content: center;
   gap: 9px;
   min-height: 52px;
-  box-shadow: 0 10px 24px rgba(28, 79, 214, 0.3);
+  box-shadow: 0 10px 24px rgba(22, 216, 83, 0.3);
   transition: all 0.25s ease;
 }
 
-.btn-primary:hover { background: #123ba0; transform: translateY(-2px); }
+.btn-primary:hover { background: #08a880; transform: translateY(-2px); }
 
 .divider {
   position: relative;
