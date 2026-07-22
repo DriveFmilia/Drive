@@ -72,7 +72,6 @@
       </div>
 
       <!-- Imágenes -->
-
       <div 
         v-for="image in filteredImages" 
         :key="image.id" 
@@ -85,7 +84,6 @@
           <span class="item-name" :title="image.name">{{ image.name }}</span>
         </div>
         <div class="item-menu" @click.stop>
-          <!-- Botón de Descarga -->
           <button @click="downloadImage(image)" title="Descargar">
             <svg class="action-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
           </button>
@@ -100,7 +98,7 @@
 
     </div>
 
-    <!-- Modal para Crear Carpeta -->
+    <!-- Modales -->
     <div v-if="openFolderModal" class="modal-overlay" @click.self="openFolderModal = false">
       <div class="modal-box">
         <h3>Crear Nueva Carpeta</h3>
@@ -112,7 +110,6 @@
       </div>
     </div>
 
-    <!-- Modal para Renombrar (Carpeta o Imagen) -->
     <div v-if="renameModalData.isOpen" class="modal-overlay" @click.self="renameModalData.isOpen = false">
       <div class="modal-box">
         <h3>{{ renameModalData.title }}</h3>
@@ -124,7 +121,6 @@
       </div>
     </div>
 
-    <!-- Modal Personalizado de Confirmación -->
     <div v-if="confirmModalData.isOpen" class="modal-overlay">
       <div class="modal-box">
         <h3>Confirmar acción</h3>
@@ -136,7 +132,6 @@
       </div>
     </div>
 
-    <!-- Notificación / Alerta Estilizada -->
     <div v-if="alertData.isOpen" class="modal-overlay">
       <div class="modal-box text-center">
         <h3>Aviso</h3>
@@ -147,14 +142,6 @@
       </div>
     </div>
 
-    <!-- Modal Vista Previa de Imagen -->
-    <div v-if="selectedImagePreview" class="modal-overlay" @click="selectedImagePreview = null">
-      <div class="preview-box">
-        <img :src="selectedImagePreview.url" alt="Vista previa" />
-        <p>{{ selectedImagePreview.name }}</p>
-      </div>
-    </div>
-    <!-- Modal Vista Previa de Imagen -->
     <div v-if="selectedImagePreview" class="modal-overlay" @click="selectedImagePreview = null">
       <div class="preview-box" @click.stop>
         <img :src="selectedImagePreview.url" alt="Vista previa" />
@@ -184,7 +171,6 @@ const openFolderModal = ref(false);
 const newFolderName = ref('');
 const selectedImagePreview = ref(null);
 
-// Modales personalizados para reemplazar alertas nativas
 const alertData = ref({ isOpen: false, message: '' });
 const confirmModalData = ref({ isOpen: false, message: '', onConfirm: null });
 const renameModalData = ref({ isOpen: false, title: '', name: '', type: '', item: null });
@@ -314,7 +300,6 @@ const uploadImages = async (event) => {
   loading.value = true;
   try {
     for (let file of files) {
-      // Limpiamos el nombre del archivo para evitar caracteres inválidos o espacios en la ruta del Storage
       const cleanFileName = file.name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-zA-Z0-9._-]/g, "_");
       const fileName = `${Date.now()}_${cleanFileName}`;
       const folderPathSegment = currentFolder.value ? currentFolder.value : 'root';
@@ -659,14 +644,16 @@ const filteredImages = computed(() => {
   background: #b91c1c;
 }
 
+/* MODIFICADO: Vista de lista en móvil (1 columna) y cuadrícula en pantallas medianas/grandes */
 .drive-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 @media (min-width: 640px) {
   .drive-grid {
+    display: grid;
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
     gap: 16px;
   }
@@ -685,15 +672,19 @@ const filteredImages = computed(() => {
   border-radius: 12px;
   padding: 10px;
   display: flex;
-  flex-direction: column;
+  align-items: center; /* MODIFICADO: alinea los elementos horizontalmente en móvil */
+  gap: 12px;
   position: relative;
   transition: transform 0.2s, border-color 0.2s;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 640px) {
   .drive-item {
+    flex-direction: column;
+    align-items: stretch;
     padding: 14px;
     border-radius: 14px;
+    gap: 0;
   }
 }
 
@@ -706,18 +697,20 @@ const filteredImages = computed(() => {
 }
 
 .item-icon-container {
-  width: 100%;
-  height: 90px;
+  width: 50px; /* MODIFICADO para lista en móvil */
+  height: 50px;
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   background: #121212;
   border-radius: 8px;
-  margin-bottom: 8px;
+  margin-bottom: 0;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 640px) {
   .item-icon-container {
+    width: 100%;
     height: 110px;
     border-radius: 10px;
     margin-bottom: 12px;
@@ -725,12 +718,12 @@ const filteredImages = computed(() => {
 }
 
 .folder-svg {
-  width: 40px;
-  height: 40px;
+  width: 24px;
+  height: 24px;
   stroke: #3b82f6;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 640px) {
   .folder-svg {
     width: 48px;
     height: 48px;
@@ -738,16 +731,18 @@ const filteredImages = computed(() => {
 }
 
 .image-preview {
-  width: 100%;
-  height: 100px;
+  width: 50px; /* MODIFICADO para lista en móvil */
+  height: 50px;
+  flex-shrink: 0;
   border-radius: 8px;
   overflow: hidden;
   background: #121212;
   cursor: pointer;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 640px) {
   .image-preview {
+    width: 100%;
     height: 120px;
     border-radius: 10px;
   }
@@ -760,11 +755,17 @@ const filteredImages = computed(() => {
 }
 
 .item-info {
-  width: 100%;
-  margin: 6px 0;
+  flex: 1; /* MODIFICADO para que ocupe el espacio disponible en la fila */
+  margin: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+@media (min-width: 640px) {
+  .item-info {
+    margin: 6px 0;
+  }
 }
 
 .item-name {
@@ -780,20 +781,23 @@ const filteredImages = computed(() => {
 
 .item-menu {
   display: flex;
-  gap: 8px;
+  gap: 6px;
   opacity: 1;
-  margin-top: auto;
-  padding-top: 4px;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
   justify-content: flex-end;
+  flex-shrink: 0;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 640px) {
   .item-menu {
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    margin-top: auto;
+    padding-top: 6px;
     opacity: 0;
     transition: opacity 0.2s;
     gap: 12px;
-    padding-top: 6px;
   }
   .drive-item:hover .item-menu {
     opacity: 1;
