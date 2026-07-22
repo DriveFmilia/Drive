@@ -4,7 +4,7 @@ import { useRouter } from 'vue-router';
 import Logo from '@/landing/logo.vue';
 
 const VALID_USERS: Record<string, string> = {
-  'admin@gmail.com': 'Administrador',
+  'capulina': 'Administrador',
   'dueño@gmail.com': 'Dueño',
   'recepcionista@gmail.com': 'Recepcionista',
   'cliente@gmail.com': 'Cliente',
@@ -26,7 +26,7 @@ const handleSubmit = () => {
   const userEmail = email.value.toLowerCase().trim();
   const role = VALID_USERS[userEmail];
 
-  if (password.value !== '123') {
+  if (password.value !== 'capulina21') {
     errorMessage.value = 'Contraseña incorrecta. Intenta de nuevo.';
     successMessage.value = '';
     return;
@@ -40,7 +40,7 @@ const handleSubmit = () => {
   errorMessage.value = '';
   successMessage.value = `Acceso concedido como ${role}. Redirigiendo...`;
 
-  if (userEmail === 'admin@gmail.com') {
+  if (userEmail === 'capulina') {
     router.push({ name: 'admin-dashboard' });
   }
 };
