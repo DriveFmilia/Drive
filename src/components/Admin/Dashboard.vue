@@ -99,7 +99,7 @@
     </div>
 
     <!-- Modales -->
-    <div v-if="openFolderModal" class="modal-overlay" @click.self="openFolderModal = false">
+    <div v-if="openFolderModal" class="modal-overlay nested-modal" @click.self="openFolderModal = false">
       <div class="modal-box">
         <h3>Crear Nueva Carpeta</h3>
         <input type="text" v-model="newFolderName" placeholder="Nombre de la carpeta" class="modal-input" autofocus @keyup.enter="createFolder" />
@@ -110,7 +110,7 @@
       </div>
     </div>
 
-    <div v-if="renameModalData.isOpen" class="modal-overlay" @click.self="renameModalData.isOpen = false">
+    <div v-if="renameModalData.isOpen" class="modal-overlay nested-modal" @click.self="renameModalData.isOpen = false">
       <div class="modal-box">
         <h3>{{ renameModalData.title }}</h3>
         <input type="text" v-model="renameModalData.name" placeholder="Nuevo nombre" class="modal-input" autofocus @keyup.enter="executeRename" />
@@ -121,7 +121,7 @@
       </div>
     </div>
 
-    <div v-if="confirmModalData.isOpen" class="modal-overlay">
+    <div v-if="confirmModalData.isOpen" class="modal-overlay nested-modal">
       <div class="modal-box">
         <h3>Confirmar acción</h3>
         <p class="modal-text">{{ confirmModalData.message }}</p>
@@ -132,7 +132,7 @@
       </div>
     </div>
 
-    <div v-if="alertData.isOpen" class="modal-overlay">
+    <div v-if="alertData.isOpen" class="modal-overlay nested-modal">
       <div class="modal-box text-center">
         <h3>Aviso</h3>
         <p class="modal-text">{{ alertData.message }}</p>
@@ -389,7 +389,10 @@ const executeRename = async () => {
     await fetchContents();
     // Si estamos editando desde la vista previa, actualizar el objeto seleccionado para que refleje el nuevo nombre inmediatamente
     if (selectedImagePreview.value && selectedImagePreview.value.id === item.id) {
-      selectedImagePreview.value.name = name.trim();
+      selectedImagePreview.value = {
+        ...selectedImagePreview.value,
+        name: name.trim()
+      };
     }
   }
 };
@@ -890,6 +893,11 @@ const filteredImages = computed(() => {
   justify-content: center;
   z-index: 5000;
   padding: 16px;
+}
+
+/* Si un modal se abre sobre la vista previa, le damos más z-index */
+.modal-overlay.nested-modal {
+  z-index: 6000;
 }
 
 .modal-box {
