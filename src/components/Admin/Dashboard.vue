@@ -142,12 +142,29 @@
       </div>
     </div>
 
+    <!-- Modal de Vista Previa Actualizado (con botón de cierre, eliminar y editar) -->
     <div v-if="selectedImagePreview" class="modal-overlay" @click="selectedImagePreview = null">
       <div class="preview-box" @click.stop>
+        <!-- Botón de Tacha (Cerrar) -->
+        <button class="preview-close-btn" @click="selectedImagePreview = null" title="Cerrar">
+          <svg class="action-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+
         <img :src="selectedImagePreview.url" alt="Vista previa" />
-        <div style="display: flex; justify-content: space-between; width: 100%; align-items: center;">
-          <p style="margin: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 70%;">{{ selectedImagePreview.name }}</p>
-          <button class="btn-primary" @click="downloadImage(selectedImagePreview)" style="padding: 6px 12px; font-size: 0.85rem;">Descargar</button>
+        
+        <div class="preview-footer">
+          <p class="preview-name" :title="selectedImagePreview.name">{{ selectedImagePreview.name }}</p>
+          <div class="preview-actions">
+            <button class="btn-secondary" @click="openRenameImageModalFromPreview(selectedImagePreview)" title="Editar nombre">
+              <svg class="action-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+              <span>Editar</span>
+            </button>
+            <button class="btn-danger-soft" @click="confirmDeleteImageFromPreview(selectedImagePreview)" title="Eliminar foto">
+              <svg class="action-svg delete" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+              <span>Eliminar</span>
+            </button>
+            <button class="btn-primary" @click="downloadImage(selectedImagePreview)">Descargar</button>
+          </div>
         </div>
       </div>
     </div>
@@ -352,6 +369,10 @@ const openRenameImageModal = (image) => {
   };
 };
 
+const openRenameImageModalFromPreview = (image) => {
+  openRenameImageModal(image);
+};
+
 const executeRename = async () => {
   const { type, item, name } = renameModalData.value;
   if (!name.trim() || name.trim() === item.name) {
@@ -364,7 +385,13 @@ const executeRename = async () => {
   
   renameModalData.value.isOpen = false;
   if (error) showAlert('Error: ' + error.message);
-  else fetchContents();
+  else {
+    await fetchContents();
+    // Si estamos editando desde la vista previa, actualizar el objeto seleccionado para que refleje el nuevo nombre inmediatamente
+    if (selectedImagePreview.value && selectedImagePreview.value.id === item.id) {
+      selectedImagePreview.value.name = name.trim();
+    }
+  }
 };
 
 const confirmDeleteFolder = (id) => {
@@ -394,9 +421,16 @@ const confirmDeleteImage = (image) => {
 
       const { error } = await supabase.from('images').delete().eq('id', image.id);
       if (error) showAlert('Error: ' + error.message);
-      else fetchContents();
+      else {
+        selectedImagePreview.value = null; // Cierra la previsualización si se elimina desde ahí
+        fetchContents();
+      }
     }
   };
+};
+
+const confirmDeleteImageFromPreview = (image) => {
+  confirmDeleteImage(image);
 };
 
 const previewImage = (image) => {
@@ -572,7 +606,7 @@ const filteredImages = computed(() => {
   flex-shrink: 0;
 }
 
-.btn-primary, .btn-secondary, .upload-label {
+.btn-primary, .btn-secondary, .upload-label, .btn-danger-soft {
   flex: 1;
   justify-content: center;
   padding: 10px 14px;
@@ -587,7 +621,7 @@ const filteredImages = computed(() => {
 }
 
 @media (min-width: 768px) {
-  .btn-primary, .btn-secondary, .upload-label {
+  .btn-primary, .btn-secondary, .upload-label, .btn-danger-soft {
     flex: unset;
     font-size: 0.9rem;
     padding: 10px 18px;
@@ -617,6 +651,17 @@ const filteredImages = computed(() => {
   border-color: rgba(255, 255, 255, 0.2);
 }
 
+.btn-danger-soft {
+  background: rgba(220, 38, 38, 0.1);
+  color: #ef4444;
+  border: 1px solid rgba(220, 38, 38, 0.2);
+  transition: background 0.2s;
+}
+
+.btn-danger-soft:hover {
+  background: rgba(220, 38, 38, 0.2);
+}
+
 .btn-outline {
   background: transparent;
   color: #d1d5db;
@@ -644,7 +689,6 @@ const filteredImages = computed(() => {
   background: #b91c1c;
 }
 
-/* MODIFICADO: Vista de lista en móvil (1 columna) y cuadrícula en pantallas medianas/grandes */
 .drive-grid {
   display: flex;
   flex-direction: column;
@@ -672,7 +716,7 @@ const filteredImages = computed(() => {
   border-radius: 12px;
   padding: 10px;
   display: flex;
-  align-items: center; /* MODIFICADO: alinea los elementos horizontalmente en móvil */
+  align-items: center;
   gap: 12px;
   position: relative;
   transition: transform 0.2s, border-color 0.2s;
@@ -697,7 +741,7 @@ const filteredImages = computed(() => {
 }
 
 .item-icon-container {
-  width: 50px; /* MODIFICADO para lista en móvil */
+  width: 50px;
   height: 50px;
   flex-shrink: 0;
   display: flex;
@@ -731,7 +775,7 @@ const filteredImages = computed(() => {
 }
 
 .image-preview {
-  width: 50px; /* MODIFICADO para lista en móvil */
+  width: 50px;
   height: 50px;
   flex-shrink: 0;
   border-radius: 8px;
@@ -755,7 +799,7 @@ const filteredImages = computed(() => {
 }
 
 .item-info {
-  flex: 1; /* MODIFICADO para que ocupe el espacio disponible en la fila */
+  flex: 1;
   margin: 0;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -848,7 +892,7 @@ const filteredImages = computed(() => {
   padding: 16px;
 }
 
-.modal-box, .preview-box {
+.modal-box {
   background: #121212;
   padding: 20px;
   border-radius: 16px;
@@ -863,7 +907,7 @@ const filteredImages = computed(() => {
 }
 
 @media (min-width: 768px) {
-  .modal-box, .preview-box {
+  .modal-box {
     padding: 28px;
     gap: 20px;
   }
@@ -873,12 +917,6 @@ const filteredImages = computed(() => {
   margin: 0;
   font-size: 1.1rem;
   font-weight: 600;
-}
-
-@media (min-width: 768px) {
-  .modal-box h3 {
-    font-size: 1.2rem;
-  }
 }
 
 .modal-text {
@@ -911,16 +949,86 @@ const filteredImages = computed(() => {
   justify-content: flex-end;
 }
 
+/* Estilos mejorados para la caja de previsualización */
 .preview-box {
-  max-width: 700px;
+  background: #121212;
+  padding: 20px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  width: 100%;
+  max-width: 650px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+  box-sizing: border-box;
+  position: relative;
+}
+
+.preview-close-btn {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
   align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: background 0.2s;
+}
+
+.preview-close-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
 }
 
 .preview-box img {
-  max-width: 100%;
-  max-height: 70vh;
+  width: 100%;
+  max-height: 60vh;
   border-radius: 8px;
   object-fit: contain;
+  background: #000;
+}
+
+.preview-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  .preview-footer {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.preview-name {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #e5e7eb;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+@media (min-width: 640px) {
+  .preview-name {
+    max-width: 40%;
+  }
+}
+
+.preview-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
 .loading-state, .empty-state {
